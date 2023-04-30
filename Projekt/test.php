@@ -13,12 +13,8 @@
 	else
 	{
 		$calendar = new Calendar();
-		$file->WriteFile($calendar->active_month, $calendar->active_year);
-	}   
-	
-    //$calendar->add_event('Veselo', '2023-02-03', 1, 'green');
-    //$calendar->add_event('Jezno', '2023-02-04', 1, 'red');
-    //$calendar->add_event('Holiday', '2023-02-16', 7);
+		$file->WriteFile(intval($calendar->active_month), intval($calendar->active_year));
+	}
 
 	if(isset($_POST['previousMonth'])) 
 	{
@@ -39,7 +35,7 @@
 			$file->WriteFile($currMonth, $currYear);
 		}
 	}
-	if(isset($_POST['nextMonth'])) 
+	else if(isset($_POST['nextMonth'])) 
 	{
 		$currMonth = intval($file->ReadFile($file->monthPrefix));
 		$currYear = intval($file->ReadFile($file->yearPrefix));
@@ -56,9 +52,27 @@
 			$currMonth += 1;
 			$calendar = new Calendar($currYear . "-" . $currMonth . "-01");
 			$file->WriteFile($currMonth, $currYear);
-		}
+		}		
 	}
+
+	/*
+	/ Displays added event
+	*/
+	if (isset($_GET['emotion']))
+	{
+		if (isset($_GET['color']))
+		{
+			if (isset($_GET['days']))
+			{
+				$currMonth = intval($file->ReadFile($file->monthPrefix));
+				$currYear = intval($file->ReadFile($file->yearPrefix));
+				$date = $currYear . "-" . $currMonth . "-" . $_GET['days'];
+				$calendar->add_event($_GET['emotion'], $date, 1, $_GET['color']);
+			}	
+		}			
+	}	
 ?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -83,6 +97,19 @@
 				<input type="submit" name="nextMonth"
 						value="Next Month"/>
     		</form>
+			<hr>
+			<form method="get">
+				Enter the desired emotion: <input type="text" name="emotion"><br>
+				Select the desired color to display: <select name="color"><br>
+					<option value="red">Red</option>
+					<option value="blue">Blue</option>
+					<option value="green">Green</option>
+				</select><br>
+				Select the desired day: <select name="days">
+					<?php echo $calendar->GetNumOfDays(intval($file->ReadFile($file->monthPrefix))); ?>
+				</select><br>
+				<br><input type="submit" value="Add Emotion"><br><br>
+			</form>
 		</div>		
 	</body>
 </html>
