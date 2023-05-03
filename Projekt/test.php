@@ -92,7 +92,7 @@ global $username;
 	
 //spremenljivki za sklicevanje na bazo za čustva in za userja 
 	$custvo_v_bazi = "SELECT mood_types_id, mood_name FROM mood_types";
-	$user_v_bazi = "SELECT id, username FROM uporabnik";
+	$user_v_bazi = "SELECT user_id, username FROM uporabnik";
 
 //sklicevanje na bazo in na postopek v bazi 
 	$najdi_userja= mysqli_query($db, $user_v_bazi);
@@ -100,7 +100,7 @@ global $username;
 //While, kjer iz piškotka dobimo id od userja, da lahko to zapišemo v bazo
 //sklkicevanje na določeni podatek v bazi userja 
 	while ($klic_na_userja = mysqli_fetch_assoc($najdi_userja)){
-	if ($username ===  $klic_na_userja["id"]){
+	if ($username ===  $klic_na_userja["user_id"]){
 		break;
 //neha z while, ko najde pravi username iz katerega dobi id 
 		}
@@ -117,7 +117,7 @@ global $username;
 			//pogleda, če je v bazi to čustvo
 		if ($_GET['emotion'] ===  $klic_na_custvo["mood_name"]){
 			//vpiše čustvo v bazo
-			$db -> query( "INSERT INTO user_mood (user_id, mood_types_id, user_mood_date) VALUES ('" .$klic_na_userja["id"]. "', '" .$klic_na_custvo["mood_types_id"] . "','".$date. "')"); 
+			$db -> query( "INSERT INTO user_mood (user_id, mood_types_id, user_mood_date) VALUES ('" .$klic_na_userja["user_id"]. "', '" .$klic_na_custvo["mood_types_id"] . "','".$date. "')"); 
 			break;
 		// while se ustavi, ko najde pravo čustvo in ga zapiše v pravo tabelo
 	}
@@ -209,10 +209,6 @@ if (isset($_COOKIE['uid'])) {
 				</select><br>
 				<br><input type="submit" value="Dodaj čustvo"><br><br>
 				
-				<script>
-    getEmotion();
-	saveEmotion(); 
-  </script>
 			</form>
 		</div>		
 		<nav class="navtop">
