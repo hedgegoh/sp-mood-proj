@@ -43,7 +43,7 @@
     
     function loginUser($db, $username, $password)
     {
-        $query = $db->query("SELECT user_id FROM uporabnik where username='" . $username . "' AND pass='" . sifriraj($password) . "'");
+        $query = $db->query("SELECT user_id FROM uporabnik where username='" . $username . "' AND user_password='" . sifriraj($password) . "'");
         if ($query->num_rows > 0) {
 
             // uporabnik obstaja, nastavis cookie, gres na homepage
