@@ -28,12 +28,12 @@
 
     function registerUser($db, $username, $password)
     {
-        $query = $db->query("SELECT id FROM uporabnik where username='" . $username . "'");
+        $query = $db->query("SELECT user_id FROM uporabnik where username='" . $username . "'");
         if ($query->num_rows > 0) {
 
             return "Uporabniško ime ni več na voljo";
         } else {
-            $db->query("INSERT INTO uporabnik (username, pass) VALUES ('" . $username . "', '" . sifriraj($password) . "')");
+            $db->query("INSERT INTO uporabnik (username, user_password) VALUES ('" . $username . "', '" . sifriraj($password) . "')");
             return "Registracija uspešna";
         }
     }
@@ -43,12 +43,12 @@
     
     function loginUser($db, $username, $password)
     {
-        $query = $db->query("SELECT id FROM uporabnik where username='" . $username . "' AND pass='" . sifriraj($password) . "'");
+        $query = $db->query("SELECT user_id FROM uporabnik where username='" . $username . "' AND pass='" . sifriraj($password) . "'");
         if ($query->num_rows > 0) {
 
             // uporabnik obstaja, nastavis cookie, gres na homepage
             $result = $query->fetch_assoc();
-            setcookie('uid', $result['id'], time() + 3600);
+            setcookie('uid', $result['user_id'], time() + 3600);
             header('location: test.php');
         } else {
             return "Uporabniško ime ali geslo ni pravilno";
