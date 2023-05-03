@@ -103,7 +103,7 @@ global $username;
 	if ($username ===  $klic_na_userja["user_id"]){
 		break;
 //neha z while, ko najde pravi username iz katerega dobi id 
-		}
+		}}
 
 
 //naredi povezavo z bazo in tabelo, dela isto kot najdi_userja 
@@ -117,18 +117,17 @@ global $username;
 			//pogleda, če je v bazi to čustvo
 		if ($_GET['emotion'] ===  $klic_na_custvo["mood_name"]){
 			//vpiše čustvo v bazo
-			$db -> query( "INSERT INTO user_mood (user_id, mood_types_id, user_mood_date) VALUES ('" .$klic_na_userja["user_id"]. "', '" .$klic_na_custvo["mood_types_id"] . "','".$date. "')"); 
+			$db -> query( "INSERT INTO user_mood (user_id, mood_types_id, user_mood_date) VALUES ('" .$username. "', '" .$klic_na_custvo["mood_types_id"] . "','".$date. "')"); 
 			break;
 		// while se ustavi, ko najde pravo čustvo in ga zapiše v pravo tabelo
 	}
-		}}}}
+		}}}
 
 //preden začnemo, preverimo, če ima piškot, iz katerega bomo dobili username 
 
 if (isset($_COOKIE['uid'])) {
     $username = $_COOKIE['uid']; 
     // preverimo, ali je uporabniško ime veljavno, npr. preverite, ali obstaja v bazi podatkov
-    // če je uporabniško ime veljavno, ga lahko uporabite v vašem programu
 } else {
 	echo "Piškotka nima";
     // če piškotka ni, uporabnik ni prijavljen
