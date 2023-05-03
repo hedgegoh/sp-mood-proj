@@ -71,7 +71,6 @@
 			}	
 		}			
 	}	
-?>
 
 //funkcija za zapis v tabelo user_mood
 function zapis_custva() {
