@@ -49,7 +49,7 @@
             // uporabnik obstaja, nastavis cookie, gres na homepage
             $result = $query->fetch_assoc();
             setcookie('uid', $result['id'], time() + 3600);
-            header('location: login_page.php');
+            header('location: test.php');
         } else {
             return "Uporabniško ime ali geslo ni pravilno";
         }

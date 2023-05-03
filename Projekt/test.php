@@ -80,7 +80,7 @@ global $username;
 //najprej se ponovno povežemo z bazo 
 		$mysql_host = "localhost";
 		$mysql_user = "root";
-		$mysql_password = "root";
+		$mysql_password = "";
 		$mysql_db = "moodapp";
 	
 	$db = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_db);
