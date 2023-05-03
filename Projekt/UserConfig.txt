@@ -1,0 +1,2 @@
+CurrMonth:6
+CurrYear:2023
