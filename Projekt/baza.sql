@@ -11,7 +11,7 @@ CREATE TABLE mood_types (
     mood_name VARCHAR(20) NOT NULL
 );
 
-INSERT INTO mood_types VALUES (1,'Bes'),(2,'Jeza'),(3,'Depresivnost'),(4,'Dolgčas'),(5,'Dvom'),(6,'Frustracija'),(7,'Negotovost'),(8,'Moč'),(9,'Krivda'),(10,'Zaljubljenost'),(11,'Nezadovoljstvo'),(12,'Nepotrpežljivost'),(13,'Sram'),(14,'Sreča'),(15,'Stiska'),(16,'Strah'),(17,'Strast'),(18,'Tesnoba'),(19,'Upanje'),(20,'Umirjenost'),(21,'Užaljenost'),(22,'Veselje'),(23,'Zadovoljstvo'),(24,'Žalost'),(25,'Obup'),(26,'Pogum'),(27,'Samozavest'),(28,'Sovraštvo'),(29,'Razočaranje'),(30,'Sproščenost');
+INSERT INTO mood_types VALUES (1,'Jeza'),(2,'Dolgčas'),(3,'Zaljubljenost'),(4,'Sreča'),(5,'Strah'),(6,'Tesnoba'),(7,'Veselje'),(8,'Žalost');
 
 CREATE TABLE user_mood (
     user_mood_id INT NOT NULL AUTO_INCREMENT,

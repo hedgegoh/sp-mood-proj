@@ -167,36 +167,14 @@ if (isset($_COOKIE['uid'])) {
 			<hr>
 			<form method="get">
 			Izberi čustvo, ki danes prevladuje v tebi:<select name="emotion"><br>
-  						<option value="Bes">Bes</option>
   						<option value="Jeza">Jeza</option>
-						<option value="Depresivnost">Depresivnost</option>
 						<option value="Dolgčas">Dolgčas</option>
-						<option value="Dvom">Dvom</option>
-  						<option value="Frustracija">Frustracija</option>
-						<option value="Negotovost">Negotovost</option>
-						<option value="Moč">Moč</option>
-						<option value="Krivda">Krivda</option>
   						<option value="Zaljubljenost">Zaljubljenost</option>
-						<option value="Nezadovoljstvo">Nezadovoljstvo</option>
-						<option value="Nepotrpežljivost">Nepotrpežljivost</option>
-						<option value="Sram">Sram</option>
   						<option value="Sreča">Sreča</option>
-						<option value="Stiska">Stiska</option>
 						<option value="Strah">Strah</option>
-						<option value="Strast">Strast</option>
   						<option value="Tesnoba">Tesnoba</option>
-						<option value="Upanje">Upanje</option>
-						<option value="Umirjenost">Umirjenost</option>
-						<option value="Užaljenost">Užaljenost</option>
   						<option value="Veselje">Veselje</option>
-						<option value="Zadovoljstvo">Zadovoljstvo</option>
 						<option value="Žalost">Žalost</option>
-						<option value="Obup">Obup</option>
-  						<option value="Pogum">Pogum</option>
-						<option value="Samozavest">Samozavest</option>
-						<option value="Sovraštvo">Sovraštvo</option>
-						<option value="Razočaranje">Razočaranje</option>
-  						<option value="Sproščenost">Sproščenost</option>
 					</select><br>
 				Izberi barvo čustva: <select name="color"><br>
 					<option value="red">Rdeča</option>
