@@ -144,8 +144,6 @@ function zapis_v_dnevnik() {
 global $date ;
  global $username; 
 
-echo $_GET['dnevnik'];
-
 $db -> query( "INSERT INTO dnevnik (user_id, user_mood_date, dnevnik) VALUES ('" .$username. "','".$date. "',  '" .$_GET['dnevnik'] . "')"); 
 }
 
