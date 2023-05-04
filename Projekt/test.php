@@ -71,24 +71,25 @@
 			}	
 		}			
 	}	
+//najprej se ponovno povežemo z bazo 
+$mysql_host = "localhost";
+$mysql_user = "root";
+$mysql_password = "";
+$mysql_db = "moodapp";
 
+$db = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_db);
+
+//pove nam, če je problem s povezavo na bazo
+if ($db->connect_errno) {
+	die("Failed to connect to MySQL: " . $db ->connect_error);
+}  
 //funkcija za zapis v tabelo user_mood
 function zapis_custva() {
 //spremenljivke, ki jih bomo rabili
 	global $date;
 global $username; 
-//najprej se ponovno povežemo z bazo 
-		$mysql_host = "localhost";
-		$mysql_user = "root";
-		$mysql_password = "";
-		$mysql_db = "moodapp";
-	
-	$db = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_db);
-	
-//pove nam, če je problem s povezavo na bazo
-	if ($db->connect_errno) {
-		die("Failed to connect to MySQL: " . $db ->connect_error);
-	} 
+global $db; 
+
 	
 //spremenljivki za sklicevanje na bazo za čustva in za userja 
 	$custvo_v_bazi = "SELECT mood_types_id, mood_name FROM mood_types";
@@ -104,7 +105,6 @@ global $username;
 		break;
 //neha z while, ko najde pravi username iz katerega dobi id 
 		}}
-
 
 //naredi povezavo z bazo in tabelo, dela isto kot najdi_userja 
 	$najdi_custvo = mysqli_query($db, $custvo_v_bazi);
@@ -123,8 +123,33 @@ global $username;
 	}
 		}}}
 
-//preden začnemo, preverimo, če ima piškot, iz katerega bomo dobili username 
+//funkcija za dnevni citat
 
+function daily_quote() { 
+	global $db; 
+	$izberi_quote = "SELECT quote FROM daily_quotes ORDER BY RAND() LIMIT 1";
+	$izreban = mysqli_query($db, $izberi_quote);
+
+if (mysqli_num_rows($izreban) > 0) {
+    // Izpiši citat
+    while($quote = mysqli_fetch_assoc($izreban)) {
+        echo $quote["quote"];
+    }
+} else {
+    echo "Danes ni motivacijskega citata, ampak bodi še naprej svoje sonce";
+}}
+
+function zapis_v_dnevnik() { 
+	global $db; 
+global $date ;
+ global $username; 
+
+echo $_GET['dnevnik'];
+
+$db -> query( "INSERT INTO dnevnik (user_id, user_mood_date, dnevnik) VALUES ('" .$username. "','".$date. "',  '" .$_GET['dnevnik'] . "')"); 
+}
+
+//preden začnemo, preverimo, če ima piškot, iz katerega bomo dobili username 
 if (isset($_COOKIE['uid'])) {
     $username = $_COOKIE['uid']; 
     // preverimo, ali je uporabniško ime veljavno, npr. preverite, ali obstaja v bazi podatkov
@@ -137,6 +162,9 @@ if (isset($_COOKIE['uid'])) {
 	if (isset($_GET['emotion']) != '') {
 		echo zapis_custva(); }
 
+	if (isset($_GET['dnevnik']) != ''){
+		echo zapis_v_dnevnik();
+	}
 ?>
 
 <!DOCTYPE html>
@@ -181,12 +209,17 @@ if (isset($_COOKIE['uid'])) {
 					<option value="blue">Modra</option>
 					<option value="green">Zelena</option>
 				</select><br>
+				
+				Želiš še kaj dodatnega napisati o svojem mesecu? <br>
+				<textarea rows = "4" cols = "50%" name = "dnevnik"> </textarea><br>			
+	
 				Izberi dan v mesecu: <select name="days">
+			
 					<?php echo $calendar->GetNumOfDays(intval($file->ReadFile($file->monthPrefix))); ?>
 				</select><br>
 				<br><input type="submit" value="Dodaj čustvo"><br><br>
 				
-			</form>
+			</form>	
 		</div>		
 		<nav class="navtop">
 	    	<div>
@@ -194,7 +227,7 @@ if (isset($_COOKIE['uid'])) {
 	</div>
 	    </nav>
 		<div class="content home">
-    <form action="seenprimer.php" method="post">
+    <form action="login_page.php" method="post">
         <input type="submit" value="Izpiši se" name="logout">
 		<br>
 		<br>
@@ -207,6 +240,10 @@ if (isset($_COOKIE['uid'])) {
 		logoutUser();
     }
     ?>
+	<!-- vsakič ko se stran refresha se updatea quote -->
+	<h2> Dnevni motivacijski citat </h1>
+	<?php daily_quote() ?>
+
 		<!DOCTYPE html>
 	</body>
 </html>
