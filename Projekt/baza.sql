@@ -62,7 +62,7 @@ INSERT INTO daily_quotes (quote) VALUES
 ('Pustite, da vaša radovednost prevlada nad strahom. To je ključ do novih izkušenj in znanj." - Ellen J. Barrier'),
 ('Cilji so sanje z rokom trajanja. - Diana Scharf Hunt');
 
- Create table dnevnik (
+ CREATE TABLE dnevnik (
      dnevnik_id INT NOT NULL AUTO_INCREMENT,
      user_id INT NOT NULL,
      user_mood_date DATE NOT NULL,
