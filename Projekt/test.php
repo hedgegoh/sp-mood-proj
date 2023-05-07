@@ -174,7 +174,7 @@ if (isset($_GET['dnevnik']) != '') {
 			<h1>Koledar čustev</h1>
 		</div>
 	</nav>
-	<div >
+	<div>
 		<?= $calendar ?>
 		<hr>
 		<form method="post">
@@ -211,9 +211,9 @@ if (isset($_GET['dnevnik']) != '') {
 		</form>
 	</div>
 
-	
 
-	<div >
+
+	<div>
 		<form action="login_page.php" method="post">
 			<input type="submit" value="Izpiši se" name="logout">
 			<br>
