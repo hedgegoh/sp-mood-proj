@@ -14,14 +14,14 @@
 }
 .calendar .days .day_name {
     width: calc(100% / 7);
-    border-right: 1px solid #2c7aca;
+    border-right: 1px solid #a6ddb6;
     padding: 20px;
     text-transform: uppercase;
     font-size: 12px;
     font-weight: bold;
     color: #818589;
     color: #fff;
-    background-color: #448cd6;
+    background-color: #9ccfad;
 }
 .calendar .days .day_name:nth-child(7) {
     border: none;
@@ -54,13 +54,13 @@
     word-wrap: break-word;
 }
 .calendar .days .day_num .event.green {
-    background-color: #51ce57;
+    background-color: #8cb88e;
 }
 .calendar .days .day_num .event.blue {
-    background-color: #518fce;
+    background-color: #8db3d8;
 }
 .calendar .days .day_num .event.red {
-    background-color: #ce5151;
+    background-color: #d36767;
 }
 .calendar .days .day_num:nth-child(7n+1) {
     border-left: 1px solid #e6e9ea;

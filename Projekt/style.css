@@ -5,50 +5,117 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
 body {
-    background-color: #FFFFFF;
-    margin: 0;
+    background-color: #Fdfdff;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-bottom: 50px;
 }
+
 .navtop {
-    background-color: #3b4656;
+    background-color: #546A7B;
     height: 60px;
     width: 100%;
     border: 0;
 }
+
 .navtop div {
     display: flex;
     margin: 0 auto;
-    width: 800px;
+    width: 100%;
+    max-width: 1200px;
     height: 100%;
-}
-.navtop div h1, .navtop div a {
-    display: inline-flex;
+    justify-content: space-between;
     align-items: center;
 }
+
+.navtop div h1,
+.navtop div a {
+    display: inline-flex;
+    align-items: center;
+
+}
+
 .navtop div h1 {
-    flex: 1;
     font-size: 24px;
     padding: 0;
     margin: 0;
     color: #ebedee;
     font-weight: normal;
 }
+
 .navtop div a {
     padding: 0 20px;
     text-decoration: none;
     color: #c4c8cc;
     font-weight: bold;
 }
+
 .navtop div a i {
     padding: 2px 8px 0 0;
 }
+
 .navtop div a:hover {
     color: #ebedee;
 }
-.content {
-    width: 800px;
-    margin: 0 auto;
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
+
+form label {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #666666;
+}
+
+form input[type="submit"],
+form input[type="button"],
+form button {
+    background-color: #3b4656;
+    color: #ebedee;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+form input[type="submit"]:hover,
+form input[type="button"]:hover,
+form button:hover {
+    background-color: #4b5769;
+}
+
+form input[type="text"],
+form select,
+form textarea {
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+form textarea {
+    height: 150px;
+}
+
+form select {
+    height: 40px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #ebebeb;
+    margin: 40px 0;
+}
+
 .content h2 {
     margin: 0;
     padding: 25px 0;
