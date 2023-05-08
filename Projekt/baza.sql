@@ -19,7 +19,7 @@ CREATE TABLE user_mood (
     mood_types_id INT NOT NULL,
     user_mood_date DATE NOT NULL,
     PRIMARY KEY (user_mood_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (user_id) REFERENCES uporabnik(user_id),
     FOREIGN KEY (mood_types_id) REFERENCES mood_types(mood_types_id)
 );
 
@@ -65,8 +65,8 @@ INSERT INTO daily_quotes (quote) VALUES
  CREATE TABLE dnevnik (
      dnevnik_id INT NOT NULL AUTO_INCREMENT,
      user_id INT NOT NULL,
-     user_mood_date DATE NOT NULL,
+     user_mood_id INT NOT NULL,
      dnevnik TEXT NOT NULL,
      PRIMARY KEY (dnevnik_id),
-     FOREIGN KEY (user_id) REFERENCES users(user_id),
-     FOREIGN KEY (user_mood_date) REFERENCES user_mood(user_mood_date));
+     FOREIGN KEY (user_id) REFERENCES uporabnik(user_id),
+     FOREIGN KEY (user_mood_id) REFERENCES user_mood(user_mood_id));
