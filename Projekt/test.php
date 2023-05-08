@@ -4,13 +4,29 @@ include 'FileSystem.php';
 
 $file = new FileSystem();
 
+//najprej se ponovno povežemo z bazo 
+$mysql_host = "localhost";
+$mysql_user = "root";
+$mysql_password = "";
+$mysql_db = "moodapp";
+
+$db = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_db);
+
+//pove nam, če je problem s povezavo na bazo
+if ($db->connect_errno) {
+	die("Failed to connect to MySQL: " . $db->connect_error);
+}
+
 $currMonth = intval($file->ReadFile($file->monthPrefix));
 $currYear = intval($file->ReadFile($file->yearPrefix));
 if ($currMonth != null || $currYear != null) {
 	$calendar = new Calendar($currYear . "-" . $currMonth . "-01");
-} else {
+	GetEmotionFromDb($calendar);
+} 
+else {
 	$calendar = new Calendar();
 	$file->WriteFile(intval($calendar->active_month), intval($calendar->active_year));
+	GetEmotionFromDb($calendar);
 }
 
 if (isset($_POST['previousMonth'])) {
@@ -56,18 +72,7 @@ if (isset($_GET['emotion'])) {
 		}
 	}
 }
-//najprej se ponovno povežemo z bazo 
-$mysql_host = "localhost";
-$mysql_user = "root";
-$mysql_password = "";
-$mysql_db = "moodapp";
 
-$db = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_db);
-
-//pove nam, če je problem s povezavo na bazo
-if ($db->connect_errno) {
-	die("Failed to connect to MySQL: " . $db->connect_error);
-}
 //funkcija za zapis v tabelo user_mood
 function zapis_custva()
 {
@@ -127,6 +132,35 @@ function daily_quote()
 		}
 	} else {
 		echo "Danes ni motivacijskega citata, ampak bodi še naprej svoje sonce";
+	}
+}
+
+function GetEmotionFromDb(Calendar $calendar)
+{
+	global $db;
+
+	$countFound = mysqli_query($db, "SELECT COUNT(user_mood_id) FROM user_mood");
+	if ($countFound != false)
+	{
+		$count = mysqli_fetch_assoc($countFound);
+		if (!empty($count))
+		{
+			for ($x = 1; $x <= $count["COUNT(user_mood_id)"]; $x++)
+			{
+				$emotionFound = false;
+				$dateFound = false;
+				$emotionFound = mysqli_query($db, "SELECT mood_name FROM mood_types 
+													INNER JOIN user_mood ON user_mood.mood_types_id = mood_types.mood_types_id 
+													WHERE user_mood.user_mood_id = $x");
+				$dateFound = mysqli_query($db, "SELECT user_mood_date FROM user_mood WHERE user_mood_id = $x");
+				if ($emotionFound != false && $dateFound != false)
+				{
+					$emotion = mysqli_fetch_assoc($emotionFound);
+					$date = mysqli_fetch_assoc($dateFound);
+					$calendar->add_event($emotion["mood_name"], $date["user_mood_date"]);
+				}			
+			}
+		}		
 	}
 }
 
