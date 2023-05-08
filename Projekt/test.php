@@ -207,7 +207,7 @@ if (isset($_GET['dnevnik']) != '') {
 
 				<?php echo $calendar->GetNumOfDays(intval($file->ReadFile($file->monthPrefix))); ?>
 			</select><br>
-			<br><input type="submit" value="Dodaj čustvo" style="background-color: #62929E; color: #fdfdff;">><br><br>
+			<br><input type="submit" value="Dodaj čustvo" style="background-color: #62929E; color: #fdfdff;"><br><br>
 		</form>
 	</div>
 
