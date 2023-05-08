@@ -103,13 +103,16 @@ function zapis_custva()
 
 	//ko najde čustvo v bazi, ga izpiše
 	if (mysqli_num_rows($najdi_custvo) > 0) {
+		global $custvo; 
 		//klic_na_custvo dela enanko kot klic_na_userja
 		while ($klic_na_custvo = mysqli_fetch_assoc($najdi_custvo)) {
 
 			//pogleda, če je v bazi to čustvo
 			if ($_GET['emotion'] === $klic_na_custvo["mood_name"]) {
+				$custvo = $klic_na_custvo["mood_types_id"];
+				
 				//vpiše čustvo v bazo
-				$db->query("INSERT INTO user_mood (user_id, mood_types_id, user_mood_date) VALUES ('" . $username . "', '" . $klic_na_custvo["mood_types_id"] . "','" . $date . "')");
+				$db->query("INSERT INTO user_mood (user_id, mood_types_id, user_mood_date) VALUES ('" . $username . "', '" . $custvo . "','" . $date . "')");
 				break;
 				// while se ustavi, ko najde pravo čustvo in ga zapiše v pravo tabelo
 			}
@@ -164,14 +167,26 @@ function GetEmotionFromDb(Calendar $calendar)
 	}
 }
 
-function zapis_v_dnevnik()
-{
-	global $db;
-	global $date;
-	global $username;
+function zapis_v_dnevnik(){
+		global $db;
+		global $username;
+		global $custvo;
+		global $date;
+	
+		$vneseni_podatki = "SELECT user_mood_id FROM user_mood WHERE mood_types_id = $custvo AND user_mood_date = '$date'";
+		
+		//naredi povezavo z bazo in tabelo, dela isto kot najdi_userja 
+		$najden_podatek = mysqli_query($db, $vneseni_podatki);
 
-	$db->query("INSERT INTO dnevnik (user_id, user_mood_date, dnevnik) VALUES ('" . $username . "','" . $date . "',  '" . $_GET['dnevnik'] . "')");
-}
+		if (mysqli_num_rows($najden_podatek) > 0) {
+			//klic_na_podatek dela enako kot klic_na_userja
+		$klic_na_podatek = mysqli_fetch_assoc($najden_podatek);
+				//pogleda, če je v bazi ta id
+		$user_mood_id = $klic_na_podatek["user_mood_id"] ; 
+		//vpis id v bazo			
+		$db->query("INSERT INTO dnevnik (user_id, user_mood_id, dnevnik) VALUES ('" . $username . "','" . $user_mood_id . "',  '" . $_GET['dnevnik'] . "')");
+		return; 
+	}}
 
 //preden začnemo, preverimo, če ima piškot, iz katerega bomo dobili username 
 if (isset($_COOKIE['uid'])) {
