@@ -43,6 +43,7 @@ if (isset($_POST['previousMonth']) && $_POST['previousMonth']=="Prejsnji mesec")
 		$calendar = new Calendar($currYear . "-" . $currMonth . "-01");
 		$file->WriteFile($currMonth, $currYear);
 	}
+	GetEmotionFromDb($calendar);
 } 
 else if (isset($_POST['nextMonth']) && $_POST['nextMonth']=="Naslednji mesec") {
 	$currMonth = intval($file->ReadFile($file->monthPrefix));
@@ -58,6 +59,7 @@ else if (isset($_POST['nextMonth']) && $_POST['nextMonth']=="Naslednji mesec") {
 		$calendar = new Calendar($currYear . "-" . $currMonth . "-01");
 		$file->WriteFile($currMonth, $currYear);
 	}
+	GetEmotionFromDb($calendar);
 }
 
 /*
