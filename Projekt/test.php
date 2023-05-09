@@ -160,7 +160,9 @@ function GetEmotionFromDb(Calendar $calendar)
 				{
 					$emotion = mysqli_fetch_assoc($emotionFound);
 					$date = mysqli_fetch_assoc($dateFound);
-					$calendar->add_event($emotion["mood_name"], $date["user_mood_date"]);
+					if ($emotion != null && $date != null) {
+						$calendar->add_event($emotion["mood_name"], $date["user_mood_date"]);
+					}
 				}			
 			}
 		}		
