@@ -30,7 +30,7 @@ CREATE TABLE daily_quotes (
     PRIMARY KEY (quote_id)); 
 
 INSERT INTO daily_quotes (quote) VALUES 
-('Vztrajaj, uspeh je tvoj, če si ga boš dovolil doseči. - Oprah Winfrey'),
+('Vztrajaj, uspeh je tvoj polona, če si ga boš dovolil doseči. - Oprah Winfrey'),
 ('Uspeh ni ključ do sreče. Sreča je ključ do uspeha. Če imate radi, kar počnete, boste uspešni. - Albert Schweitzer'),
 ('Uspeh ni končna postaja, neuspeh pa ni usoden udarec. To je pogum, ki šteje. - Winston Churchill'),
 ('Uspeh je kombinacija talenta, trdega dela in vztrajnosti. - Colin Powell'),
