@@ -17,6 +17,7 @@ CREATE TABLE user_mood (
     user_mood_id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     mood_types_id INT NOT NULL,
+    mood_types_color TEXT NOT NULL, 
     user_mood_date DATE NOT NULL,
     PRIMARY KEY (user_mood_id),
     FOREIGN KEY (user_id) REFERENCES uporabnik(user_id),

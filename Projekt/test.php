@@ -112,7 +112,7 @@ function zapis_custva()
 				$custvo = $klic_na_custvo["mood_types_id"];
 				
 				//vpiše čustvo v bazo
-				$db->query("INSERT INTO user_mood (user_id, mood_types_id, user_mood_date) VALUES ('" . $username . "', '" . $custvo . "','" . $date . "')");
+				$db->query("INSERT INTO user_mood (user_id, mood_types_id, mood_types_color, user_mood_date) VALUES ('" . $username . "', '" . $custvo . "', '" . $_GET['color'] . "','" . $date . "')");
 				break;
 				// while se ustavi, ko najde pravo čustvo in ga zapiše v pravo tabelo
 			}
