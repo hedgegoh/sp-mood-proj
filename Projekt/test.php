@@ -1,7 +1,6 @@
 <?php
 include 'Calendar.php';
 include 'FileSystem.php';
-include 'login_page.php';
 
 $file = new FileSystem();
 
@@ -150,10 +149,11 @@ function daily_quote()
 function GetEmotionFromDb(Calendar $calendar)
 {
 	global $db;
+	global $username;
 
 	$userID = 0;
 
-	$userFound = mysqli_query($db, "SELECT user_id FROM uporabnik WHERE username = 'root3'");
+	$userFound = mysqli_query($db, "SELECT user_id FROM uporabnik WHERE username = $username");
 	if ($userFound != false)
 	{
 		$user = mysqli_fetch_assoc($userFound);
