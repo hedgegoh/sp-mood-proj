@@ -1,6 +1,7 @@
 <?php
 include 'Calendar.php';
 include 'FileSystem.php';
+include 'login_page.php';
 
 $file = new FileSystem();
 
@@ -29,7 +30,7 @@ else {
 	GetEmotionFromDb($calendar);
 }
 
-if (isset($_POST['previousMonth'])) {
+if (isset($_POST['previousMonth']) && $_POST['previousMonth']=="Prejsnji mesec") {
 	$currMonth = intval($file->ReadFile($file->monthPrefix));
 	$currYear = intval($file->ReadFile($file->yearPrefix));
 
@@ -43,7 +44,8 @@ if (isset($_POST['previousMonth'])) {
 		$calendar = new Calendar($currYear . "-" . $currMonth . "-01");
 		$file->WriteFile($currMonth, $currYear);
 	}
-} else if (isset($_POST['nextMonth'])) {
+} 
+else if (isset($_POST['nextMonth']) && $_POST['nextMonth']=="Naslednji mesec") {
 	$currMonth = intval($file->ReadFile($file->monthPrefix));
 	$currYear = intval($file->ReadFile($file->yearPrefix));
 
@@ -81,10 +83,17 @@ function zapis_custva()
 	global $username;
 	global $db;
 
-
 	//spremenljivki za sklicevanje na bazo za čustva in za userja 
 	$custvo_v_bazi = "SELECT mood_types_id, mood_name FROM mood_types";
 	$user_v_bazi = "SELECT user_id, username FROM uporabnik";
+
+	$countFound = mysqli_query($db, "SELECT COUNT(user_mood_id) FROM user_mood");
+	if ($countFound != false)
+	{
+		$countArray = mysqli_fetch_assoc($countFound);
+		$count = $countArray["COUNT(user_mood_id)"];
+		$count += 1;
+	}
 
 	//sklicevanje na bazo in na postopek v bazi 
 	$najdi_userja = mysqli_query($db, $user_v_bazi);
@@ -112,7 +121,7 @@ function zapis_custva()
 				$custvo = $klic_na_custvo["mood_types_id"];
 				
 				//vpiše čustvo v bazo
-				$db->query("INSERT INTO user_mood (user_id, mood_types_id, mood_types_color, user_mood_date) VALUES ('" . $username . "', '" . $custvo . "', '" . $_GET['color'] . "','" . $date . "')");
+				$db->query("INSERT INTO user_mood (user_mood_id, user_id, mood_types_id, mood_types_color, user_mood_date) VALUES ('" . $count . "', '" . $username . "', '" . $custvo . "', '" . $_GET['color'] . "','" . $date . "')");
 				break;
 				// while se ustavi, ko najde pravo čustvo in ga zapiše v pravo tabelo
 			}
@@ -142,6 +151,15 @@ function GetEmotionFromDb(Calendar $calendar)
 {
 	global $db;
 
+	$userID = 0;
+
+	$userFound = mysqli_query($db, "SELECT user_id FROM uporabnik WHERE username = 'root3'");
+	if ($userFound != false)
+	{
+		$user = mysqli_fetch_assoc($userFound);
+		$userID = $user["user_id"];
+	}
+
 	$countFound = mysqli_query($db, "SELECT COUNT(user_mood_id) FROM user_mood");
 	if ($countFound != false)
 	{
@@ -152,16 +170,19 @@ function GetEmotionFromDb(Calendar $calendar)
 			{
 				$emotionFound = false;
 				$dateFound = false;
+				$colorFound = false;
 				$emotionFound = mysqli_query($db, "SELECT mood_name FROM mood_types 
 													INNER JOIN user_mood ON user_mood.mood_types_id = mood_types.mood_types_id 
-													WHERE user_mood.user_mood_id = $x");
-				$dateFound = mysqli_query($db, "SELECT user_mood_date FROM user_mood WHERE user_mood_id = $x");
-				if ($emotionFound != false && $dateFound != false)
+													WHERE user_mood.user_mood_id = $x AND user_id = $userID");
+				$dateFound = mysqli_query($db, "SELECT user_mood_date FROM user_mood WHERE user_mood_id = $x AND user_id = $userID");
+				$colorFound = mysqli_query($db, "SELECT mood_types_color FROM user_mood WHERE user_mood_id = $x AND user_id = $userID");
+				if ($emotionFound != false && $dateFound != false && $colorFound != false)
 				{
 					$emotion = mysqli_fetch_assoc($emotionFound);
 					$date = mysqli_fetch_assoc($dateFound);
+					$color = mysqli_fetch_assoc($colorFound);
 					if ($emotion != null && $date != null) {
-						$calendar->add_event($emotion["mood_name"], $date["user_mood_date"]);
+						$calendar->add_event($emotion["mood_name"], $date["user_mood_date"], 1, $color["mood_types_color"]);
 					}
 				}			
 			}
@@ -175,7 +196,7 @@ function zapis_v_dnevnik(){
 		global $custvo;
 		global $date;
 	
-		$vneseni_podatki = "SELECT user_mood_id FROM user_mood WHERE mood_types_id = $custvo AND user_mood_date = '$date'";
+		$vneseni_podatki = "SELECT user_mood_id FROM user_mood WHERE mood_types_id = $custvo AND user_mood_date = $date";
 		
 		//naredi povezavo z bazo in tabelo, dela isto kot najdi_userja 
 		$najden_podatek = mysqli_query($db, $vneseni_podatki);
@@ -229,7 +250,7 @@ if (isset($_GET['dnevnik']) != '') {
 		<?= $calendar ?>
 		<hr>
 		<form method="post">
-			<input type="submit" name="previousMonth" value="Prejšnji mesec" />
+			<input type="submit" name="previousMonth" value="Prejsnji mesec" />
 
 			<input type="submit" name="nextMonth" value="Naslednji mesec" />
 		</form>
@@ -237,13 +258,13 @@ if (isset($_GET['dnevnik']) != '') {
 		<form method="get">
 			Katero čustvo danes prevladuje v tebi:<select name="emotion"><br>
 				<option value="Jeza">Jeza</option>
-				<option value="Dolgčas">Dolgčas</option>
+				<option value="Dolgcas">Dolgčas</option>
 				<option value="Zaljubljenost">Zaljubljenost</option>
-				<option value="Sreča">Sreča</option>
+				<option value="Sreca">Sreča</option>
 				<option value="Strah">Strah</option>
 				<option value="Tesnoba">Tesnoba</option>
 				<option value="Veselje">Veselje</option>
-				<option value="Žalost">Žalost</option>
+				<option value="Zalost">Žalost</option>
 			</select><br>
 			Katere barve se počutiš danes?<select name="color"><br>
 				<option value="red">Rdeča</option>
@@ -252,13 +273,13 @@ if (isset($_GET['dnevnik']) != '') {
 			</select><br>
 
 			Kako se dejansko počutiš? <br>
-			<textarea rows="4" cols="50%" name="dnevnik"> </textarea><br>
+			<textarea rows="4" cols="50%" name='dnevnik' value = "dnevnik"> </textarea><br>
 
 			Izberi dan v mesecu: <select name="days">
 
 				<?php echo $calendar->GetNumOfDays(intval($file->ReadFile($file->monthPrefix))); ?>
 			</select><br>
-			<br><input type="submit" value="Dodaj čustvo" style="background-color: #62929E; color: #fdfdff;"><br><br>
+			<br><input type="submit" name ='Dodaj custvo' value="Dodaj custvo" style="background-color: #62929E; color: #fdfdff;"><br><br>
 		</form>
 	</div>
 
