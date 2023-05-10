@@ -29,7 +29,7 @@ else {
 	GetEmotionFromDb($calendar);
 }
 
-if (isset($_POST['previousMonth']) && $_POST['previousMonth']=="Prejsnji mesec") {
+if (isset($_POST['previousMonth']) && $_POST['previousMonth']=="Prejšnji mesec") {
 	$currMonth = intval($file->ReadFile($file->monthPrefix));
 	$currYear = intval($file->ReadFile($file->yearPrefix));
 
@@ -159,7 +159,10 @@ function GetEmotionFromDb(Calendar $calendar)
 	if ($userFound != false)
 	{
 		$user = mysqli_fetch_assoc($userFound);
-		$userID = $user["user_id"];
+		if ($userID != null)
+		{
+			$userID = $user["user_id"];
+		}		
 	}
 
 	$countFound = mysqli_query($db, "SELECT COUNT(user_mood_id) FROM user_mood");
@@ -252,7 +255,7 @@ if (isset($_GET['dnevnik']) != '') {
 		<?= $calendar ?>
 		<hr>
 		<form method="post">
-			<input type="submit" name="previousMonth" value="Prejsnji mesec" />
+			<input type="submit" name="previousMonth" value="Prejšnji mesec" />
 
 			<input type="submit" name="nextMonth" value="Naslednji mesec" />
 		</form>
@@ -260,13 +263,13 @@ if (isset($_GET['dnevnik']) != '') {
 		<form method="get">
 			Katero čustvo danes prevladuje v tebi:<select name="emotion"><br>
 				<option value="Jeza">Jeza</option>
-				<option value="Dolgcas">Dolgčas</option>
+				<option value="Dolgčas">Dolgčas</option>
 				<option value="Zaljubljenost">Zaljubljenost</option>
-				<option value="Sreca">Sreča</option>
+				<option value="Sreča">Sreča</option>
 				<option value="Strah">Strah</option>
 				<option value="Tesnoba">Tesnoba</option>
 				<option value="Veselje">Veselje</option>
-				<option value="Zalost">Žalost</option>
+				<option value="Žalost">Žalost</option>
 			</select><br>
 			Katere barve se počutiš danes?<select name="color"><br>
 				<option value="red">Rdeča</option>
@@ -281,7 +284,7 @@ if (isset($_GET['dnevnik']) != '') {
 
 				<?php echo $calendar->GetNumOfDays(intval($file->ReadFile($file->monthPrefix))); ?>
 			</select><br>
-			<br><input type="submit" name ='Dodaj custvo' value="Dodaj custvo" style="background-color: #62929E; color: #fdfdff;"><br><br>
+			<br><input type="submit" name ='Dodaj čustvo' value="Dodaj čustvo" style="background-color: #62929E; color: #fdfdff;"><br><br>
 		</form>
 	</div>
 
