@@ -7,7 +7,7 @@ $file = new FileSystem();
 //najprej se ponovno povežemo z bazo 
 $mysql_host = "localhost";
 $mysql_user = "root";
-$mysql_password = "";
+$mysql_password = "root";
 $mysql_db = "moodapp";
 
 $db = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_db);
@@ -70,8 +70,8 @@ if (isset($_GET['emotion'])) {
 		if (isset($_GET['days'])) {
 			$currMonth = intval($file->ReadFile($file->monthPrefix));
 			$currYear = intval($file->ReadFile($file->yearPrefix));
-			$date = $currYear . "-" . $currMonth . "-" . $_GET['days'];
-			$calendar->add_event($_GET['emotion'], $date, 1, $_GET['color']);
+			$datum = $currYear . "-" . $currMonth . "-" . $_GET['days'];
+			$calendar->add_event($_GET['emotion'], $datum, 1, $_GET['color']);
 		}
 	}
 }
@@ -80,7 +80,7 @@ if (isset($_GET['emotion'])) {
 function zapis_custva()
 {
 	//spremenljivke, ki jih bomo rabili
-	global $date;
+	global $datum;
 	global $username;
 	global $db;
 
@@ -122,7 +122,7 @@ function zapis_custva()
 				$custvo = $klic_na_custvo["mood_types_id"];
 				
 				//vpiše čustvo v bazo
-				$db->query("INSERT INTO user_mood (user_mood_id, user_id, mood_types_id, mood_types_color, user_mood_date) VALUES ('" . $count . "', '" . $username . "', '" . $custvo . "', '" . $_GET['color'] . "','" . $date . "')");
+				$db->query("INSERT INTO user_mood (user_mood_id, user_id, mood_types_id, mood_types_color, user_mood_date) VALUES ('" . $count . "', '" . $username . "', '" . $custvo . "', '" . $_GET['color'] . "','" . $datum . "')");
 				break;
 				// while se ustavi, ko najde pravo čustvo in ga zapiše v pravo tabelo
 			}
@@ -148,60 +148,68 @@ function daily_quote()
 	}
 }
 
-function GetEmotionFromDb(Calendar $calendar)
+function GetEmotionFromDb()
 {
-	global $db;
-	global $username;
+    global $db;
+    global $username;
+	global $calendar; 
 
-	$userID = 0;
+    $userID = 0;
+    $najdiga = "SELECT user_id FROM uporabnik WHERE username = '$username'"; 
+    $userFound = mysqli_query($db, $najdiga);
+    if (mysqli_num_rows($userFound) > 0)
+    {
+        $user = mysqli_fetch_assoc($userFound);
+        $userID = $user["user_id"];
+    }		
 
-	$userFound = mysqli_query($db, "SELECT user_id FROM uporabnik WHERE username = $username");
-	if ($userFound != false)
-	{
-		$user = mysqli_fetch_assoc($userFound);
-		if ($userID != null)
-		{
-			$userID = $user["user_id"];
-		}		
-	}
-
-	$countFound = mysqli_query($db, "SELECT COUNT(user_mood_id) FROM user_mood");
-	if ($countFound != false)
-	{
-		$count = mysqli_fetch_assoc($countFound);
-		if (!empty($count))
-		{
-			for ($x = 1; $x <= $count["COUNT(user_mood_id)"]; $x++)
-			{
-				$emotionFound = false;
-				$dateFound = false;
-				$colorFound = false;
-				$emotionFound = mysqli_query($db, "SELECT mood_name FROM mood_types 
-													INNER JOIN user_mood ON user_mood.mood_types_id = mood_types.mood_types_id 
-													WHERE user_mood.user_mood_id = $x AND user_id = $userID");
-				$dateFound = mysqli_query($db, "SELECT user_mood_date FROM user_mood WHERE user_mood_id = $x AND user_id = $userID");
-				$colorFound = mysqli_query($db, "SELECT mood_types_color FROM user_mood WHERE user_mood_id = $x AND user_id = $userID");
-				if ($emotionFound != false && $dateFound != false && $colorFound != false)
-				{
-					$emotion = mysqli_fetch_assoc($emotionFound);
-					$date = mysqli_fetch_assoc($dateFound);
-					$color = mysqli_fetch_assoc($colorFound);
-					if ($emotion != null && $date != null) {
-						$calendar->add_event($emotion["mood_name"], $date["user_mood_date"], 1, $color["mood_types_color"]);
-					}
-				}			
-			}
-		}		
-	}
+    $steje = "SELECT COUNT(user_mood_id) FROM user_mood";
+    $countFound = mysqli_query($db, $steje);
+    if (mysqli_num_rows($countFound) > 0)
+    {
+        $count = mysqli_fetch_assoc($countFound);
+        if (!empty($count))
+        {
+            for ($x = 1; $x <= $count["COUNT(user_mood_id)"]; $x++)
+            {
+                global $userID; 
+                $emotionFound = false;
+                $dateFound = false;
+                $colorFound = false;
+                $najdi_ga_ = "SELECT mood_name FROM mood_types 
+                    INNER JOIN user_mood ON user_mood.mood_types_id = mood_types.mood_types_id 
+                    WHERE user_mood.user_mood_id = $x AND user_id ='$userID'";
+                $emotionFound = mysqli_query($db, $najdi_ga_);
+                $najdi_datum = "SELECT user_mood_date FROM user_mood WHERE user_mood_id = $x AND user_id = '$userID'";
+                $najdi_barvo = "SELECT mood_types_color FROM user_mood WHERE user_mood_id = $x AND user_id = '$userID'";
+                $dateFound = mysqli_query($db, $najdi_datum);
+                $colorFound = mysqli_query($db, $najdi_barvo);
+                if ($emotionFound !== false && $dateFound !== false && $colorFound !== false) {
+                    $emotion = mysqli_fetch_assoc($emotionFound);
+                    $date = mysqli_fetch_assoc($dateFound);
+                    $color = mysqli_fetch_assoc($colorFound);
+                    if ($emotion != null && $date != null && $color != null) {
+                        $calendar->add_event($emotion["mood_name"], $date["user_mood_date"], 1,  $color["mood_types_color"]);
+                        break;
+                    }
+                }
+            }
+        }		
+    }
 }
+
+
+
 
 function zapis_v_dnevnik(){
 		global $db;
 		global $username;
 		global $custvo;
-		global $date;
+		global $datum;
+
+		
 	
-		$vneseni_podatki = "SELECT user_mood_id FROM user_mood WHERE mood_types_id = $custvo AND user_mood_date = $date";
+		$vneseni_podatki = "SELECT user_mood_id FROM user_mood WHERE mood_types_id = '$custvo' AND user_mood_date = '$datum'";
 		
 		//naredi povezavo z bazo in tabelo, dela isto kot najdi_userja 
 		$najden_podatek = mysqli_query($db, $vneseni_podatki);
@@ -212,6 +220,7 @@ function zapis_v_dnevnik(){
 				//pogleda, če je v bazi ta id
 		$user_mood_id = $klic_na_podatek["user_mood_id"] ; 
 		//vpis id v bazo			
+		
 		$db->query("INSERT INTO dnevnik (user_id, user_mood_id, dnevnik) VALUES ('" . $username . "','" . $user_mood_id . "',  '" . $_GET['dnevnik'] . "')");
 		return; 
 	}}
