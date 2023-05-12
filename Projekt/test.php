@@ -7,7 +7,7 @@ $file = new FileSystem();
 //najprej se ponovno povežemo z bazo 
 $mysql_host = "localhost";
 $mysql_user = "root";
-$mysql_password = "root";
+$mysql_password = "";
 $mysql_db = "moodapp";
 
 $db = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_db);
@@ -22,14 +22,13 @@ $currYear = intval($file->ReadFile($file->yearPrefix));
 if ($currMonth != null || $currYear != null) {
 	$calendar = new Calendar($currYear . "-" . $currMonth . "-01");
 	GetEmotionFromDb($calendar);
-} 
-else {
+} else {
 	$calendar = new Calendar();
 	$file->WriteFile(intval($calendar->active_month), intval($calendar->active_year));
 	GetEmotionFromDb($calendar);
 }
 
-if (isset($_POST['previousMonth']) && $_POST['previousMonth']=="Prejšnji mesec") {
+if (isset($_POST['previousMonth']) && $_POST['previousMonth'] == "Prejšnji mesec") {
 	$currMonth = intval($file->ReadFile($file->monthPrefix));
 	$currYear = intval($file->ReadFile($file->yearPrefix));
 
@@ -44,8 +43,7 @@ if (isset($_POST['previousMonth']) && $_POST['previousMonth']=="Prejšnji mesec"
 		$file->WriteFile($currMonth, $currYear);
 	}
 	GetEmotionFromDb($calendar);
-} 
-else if (isset($_POST['nextMonth']) && $_POST['nextMonth']=="Naslednji mesec") {
+} else if (isset($_POST['nextMonth']) && $_POST['nextMonth'] == "Naslednji mesec") {
 	$currMonth = intval($file->ReadFile($file->monthPrefix));
 	$currYear = intval($file->ReadFile($file->yearPrefix));
 
@@ -86,11 +84,10 @@ function zapis_custva()
 
 	//spremenljivki za sklicevanje na bazo za čustva in za userja 
 	$custvo_v_bazi = "SELECT mood_types_id, mood_name FROM mood_types";
-	$user_v_bazi = "SELECT user_id, username FROM uporabnik";
+	$user_v_bazi = "SELECT user_id, username FROM users";
 
 	$countFound = mysqli_query($db, "SELECT COUNT(user_mood_id) FROM user_mood");
-	if ($countFound != false)
-	{
+	if ($countFound != false) {
 		$countArray = mysqli_fetch_assoc($countFound);
 		$count = $countArray["COUNT(user_mood_id)"];
 		$count += 1;
@@ -113,14 +110,14 @@ function zapis_custva()
 
 	//ko najde čustvo v bazi, ga izpiše
 	if (mysqli_num_rows($najdi_custvo) > 0) {
-		global $custvo; 
+		global $custvo;
 		//klic_na_custvo dela enanko kot klic_na_userja
 		while ($klic_na_custvo = mysqli_fetch_assoc($najdi_custvo)) {
 
 			//pogleda, če je v bazi to čustvo
 			if ($_GET['emotion'] === $klic_na_custvo["mood_name"]) {
 				$custvo = $klic_na_custvo["mood_types_id"];
-				
+
 				//vpiše čustvo v bazo
 				$db->query("INSERT INTO user_mood (user_mood_id, user_id, mood_types_id, mood_types_color, user_mood_date) VALUES ('" . $count . "', '" . $username . "', '" . $custvo . "', '" . $_GET['color'] . "','" . $datum . "')");
 				break;
@@ -150,80 +147,74 @@ function daily_quote()
 
 function GetEmotionFromDb()
 {
-    global $db;
-    global $username;
-	global $calendar; 
+	global $db;
+	global $username;
+	global $calendar;
 
-    $userID = 0;
-    $najdiga = "SELECT user_id FROM uporabnik WHERE username = '$username'"; 
-    $userFound = mysqli_query($db, $najdiga);
-    if (mysqli_num_rows($userFound) > 0)
-    {
-        $user = mysqli_fetch_assoc($userFound);
-        $userID = $user["user_id"];
-    }		
+	$userID = 0;
+	$najdiga = "SELECT user_id FROM users WHERE username = '$username'";
+	$userFound = mysqli_query($db, $najdiga);
+	if (mysqli_num_rows($userFound) > 0) {
+		$user = mysqli_fetch_assoc($userFound);
+		$userID = $user["user_id"];
+	}
 
-    $steje = "SELECT COUNT(user_mood_id) FROM user_mood";
-    $countFound = mysqli_query($db, $steje);
-    if (mysqli_num_rows($countFound) > 0)
-    {
-        $count = mysqli_fetch_assoc($countFound);
-        if (!empty($count))
-        {
-            for ($x = 1; $x <= $count["COUNT(user_mood_id)"]; $x++)
-            {
-                global $userID; 
-                $emotionFound = false;
-                $dateFound = false;
-                $colorFound = false;
-                $najdi_ga_ = "SELECT mood_name FROM mood_types 
+	$steje = "SELECT COUNT(user_mood_id) FROM user_mood";
+	$countFound = mysqli_query($db, $steje);
+	if (mysqli_num_rows($countFound) > 0) {
+		$count = mysqli_fetch_assoc($countFound);
+		if (!empty($count)) {
+			for ($x = 1; $x <= $count["COUNT(user_mood_id)"]; $x++) {
+				global $userID;
+				$emotionFound = false;
+				$dateFound = false;
+				$colorFound = false;
+				$najdi_ga_ = "SELECT mood_name FROM mood_types 
                     INNER JOIN user_mood ON user_mood.mood_types_id = mood_types.mood_types_id 
-                    WHERE user_mood.user_mood_id = $x AND user_id ='$userID'";
-                $emotionFound = mysqli_query($db, $najdi_ga_);
-                $najdi_datum = "SELECT user_mood_date FROM user_mood WHERE user_mood_id = $x AND user_id = '$userID'";
-                $najdi_barvo = "SELECT mood_types_color FROM user_mood WHERE user_mood_id = $x AND user_id = '$userID'";
-                $dateFound = mysqli_query($db, $najdi_datum);
-                $colorFound = mysqli_query($db, $najdi_barvo);
-                if ($emotionFound !== false && $dateFound !== false && $colorFound !== false) {
-                    $emotion = mysqli_fetch_assoc($emotionFound);
-                    $date = mysqli_fetch_assoc($dateFound);
-                    $color = mysqli_fetch_assoc($colorFound);
-                    if ($emotion != null && $date != null && $color != null) {
-                        $calendar->add_event($emotion["mood_name"], $date["user_mood_date"], 1,  $color["mood_types_color"]);
-                        break;
-                    }
-                }
-            }
-        }		
-    }
+                    WHERE user_mood.user_mood_id = $x AND user_id ='$userID'"; //isce custvo
+				$emotionFound = mysqli_query($db, $najdi_ga_);
+				$najdi_datum = "SELECT user_mood_date FROM user_mood WHERE user_mood_id = $x AND user_id = '$userID'";
+				$najdi_barvo = "SELECT mood_types_color FROM user_mood WHERE user_mood_id = $x AND user_id = '$userID'";
+				$dateFound = mysqli_query($db, $najdi_datum);
+				$colorFound = mysqli_query($db, $najdi_barvo);
+				if ($emotionFound !== false && $dateFound !== false && $colorFound !== false) {
+					$emotion = mysqli_fetch_assoc($emotionFound);
+					$date = mysqli_fetch_assoc($dateFound);
+					$color = mysqli_fetch_assoc($colorFound);
+					if ($emotion != null && $date != null && $color != null) {
+						$calendar->add_event($emotion["mood_name"], $date["user_mood_date"], 1, $color["mood_types_color"]);
+						break;
+					}
+				}
+			}
+		}
+	}
 }
 
 
+function zapis_v_diary()
+{
+	global $db;
+	global $username;
+	global $custvo;
+	global $datum;
 
+	$vneseni_podatki = "SELECT user_mood_id FROM user_mood WHERE mood_types_id = '$custvo' AND user_mood_date = '$datum'";
 
-function zapis_v_dnevnik(){
-		global $db;
-		global $username;
-		global $custvo;
-		global $datum;
+	//naredi povezavo z bazo in tabelo, dela isto kot najdi_userja 
+	$najden_podatek = mysqli_query($db, $vneseni_podatki);
 
-		
-	
-		$vneseni_podatki = "SELECT user_mood_id FROM user_mood WHERE mood_types_id = '$custvo' AND user_mood_date = '$datum'";
-		
-		//naredi povezavo z bazo in tabelo, dela isto kot najdi_userja 
-		$najden_podatek = mysqli_query($db, $vneseni_podatki);
-
-		if (mysqli_num_rows($najden_podatek) > 0) {
-			//klic_na_podatek dela enako kot klic_na_userja
+	if (mysqli_num_rows($najden_podatek) > 0) {
+		//klic_na_podatek dela enako kot klic_na_userja
 		$klic_na_podatek = mysqli_fetch_assoc($najden_podatek);
-				//pogleda, če je v bazi ta id
-		$user_mood_id = $klic_na_podatek["user_mood_id"] ; 
+		//pogleda, če je v bazi ta id
+		$user_mood_id = $klic_na_podatek["user_mood_id"];
 		//vpis id v bazo			
-		
-		$db->query("INSERT INTO dnevnik (user_id, user_mood_id, dnevnik) VALUES ('" . $username . "','" . $user_mood_id . "',  '" . $_GET['dnevnik'] . "')");
-		return; 
-	}}
+
+		$db->query("INSERT INTO diary (user_id, user_mood_id, diary) VALUES ('" . $username . "','" . $user_mood_id . "',  '" . $_GET['diary'] . "')");
+		return;
+	}
+}
 
 //preden začnemo, preverimo, če ima piškot, iz katerega bomo dobili username 
 if (isset($_COOKIE['uid'])) {
@@ -239,8 +230,8 @@ if (isset($_GET['emotion']) != '') {
 	echo zapis_custva();
 }
 
-if (isset($_GET['dnevnik']) != '') {
-	echo zapis_v_dnevnik();
+if (isset($_GET['diary']) != '') {
+	echo zapis_v_diary();
 }
 ?>
 
@@ -253,7 +244,7 @@ if (isset($_GET['dnevnik']) != '') {
 	<link href="style.css" rel="stylesheet" type="text/css">
 	<link href="CalendarStyle.css" rel="stylesheet" type="text/css">
 
-
+	
 <body>
 	<nav class="navtop">
 		<div>
@@ -265,7 +256,6 @@ if (isset($_GET['dnevnik']) != '') {
 		<hr>
 		<form method="post">
 			<input type="submit" name="previousMonth" value="Prejšnji mesec" />
-
 			<input type="submit" name="nextMonth" value="Naslednji mesec" />
 		</form>
 		<hr>
@@ -287,25 +277,22 @@ if (isset($_GET['dnevnik']) != '') {
 			</select><br>
 
 			Kako se dejansko počutiš? <br>
-			<textarea rows="4" cols="50%" name='dnevnik' value = "dnevnik"> </textarea><br>
+			<textarea rows="4" cols="50%" name='diary' value="diary"> </textarea><br>
 
 			Izberi dan v mesecu: <select name="days">
 
 				<?php echo $calendar->GetNumOfDays(intval($file->ReadFile($file->monthPrefix))); ?>
 			</select><br>
-			<br><input type="submit" name ='Dodaj čustvo' value="Dodaj čustvo" style="background-color: #62929E; color: #fdfdff;"><br><br>
+			<br><input type="submit" name='Dodaj čustvo' value="Dodaj čustvo"
+				style="background-color: #62929E; color: #fdfdff;"><br><br>
 		</form>
 	</div>
 
-
-
-	<div>
-		<form action="login_page.php" method="post">
-			<input type="submit" value="Izpiši se" name="logout">
-			<br>
-			<br>
-		</form>
-	</div>
+	<form action="login_page.php" method="post">
+		<input type="submit" value="Izpiši se" name="logout">
+		<br>
+		<br>
+	</form>
 
 	<?php
 
@@ -314,14 +301,12 @@ if (isset($_GET['dnevnik']) != '') {
 		logoutUser();
 	}
 	?>
+
 	<!-- vsakič ko se stran refresha se updatea quote -->
 	<h2> Dnevni motivacijski citat, samo zate.</h1>
 		<?php daily_quote() ?>
-
-		<!DOCTYPE html>
-</body>
-
-</html>
+		<br>
+		<br><br>
 </body>
 
 </html>
