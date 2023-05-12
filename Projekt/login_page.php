@@ -29,12 +29,12 @@
 
     function registerUser($db, $username, $password)
     {
-        $query = $db->query("SELECT user_id FROM uporabnik where username='" . $username . "'");
+        $query = $db->query("SELECT user_id FROM users where username='" . $username . "'");
         if ($query->num_rows > 0) {
 
             return "Uporabniško ime ni več na voljo";
         } else {
-            $db->query("INSERT INTO uporabnik (username, user_password) VALUES ('" . $username . "', '" . sifriraj($password) . "')");
+            $db->query("INSERT INTO users (username, user_password) VALUES ('" . $username . "', '" . sifriraj($password) . "')");
             return "Registracija uspešna";
         }
     }
@@ -44,10 +44,10 @@
     
     function loginUser($db, $username, $password)
     {
-        $query = $db->query("SELECT user_id FROM uporabnik where username='" . $username . "' AND user_password='" . sifriraj($password) . "'");
+        $query = $db->query("SELECT user_id FROM users where username='" . $username . "' AND user_password='" . sifriraj($password) . "'");
         if ($query->num_rows > 0) {
 
-            // uporabnik obstaja, nastavis cookie, gres na homepage
+            // user obstaja, nastavis cookie, gres na homepage
             $result = $query->fetch_assoc();
             setcookie('uid', $result['user_id'], time() + 3600);
             header('location: test.php');
@@ -60,38 +60,26 @@
         echo registerUser($db, $_POST['reg_username'], $_POST['reg_pass']);
     } else if (isset($_POST['prij_username']) && $_POST['prij_username'] != '') {
         echo loginUser($db, $_POST['prij_username'], $_POST['prij_pass']);
-    } else {
-        // display registration and login forms
-    
+    } else { //
     }
-
-
     function logoutUser()
     {
-        setcookie('uid', '', time() - 3600); // zbrisemo cookie (je že expired)
+        setcookie('uid', '', time() - 3600); // zbrisemo cookie (expired)
         header('Location: login_page.php');
         exit();
     }
 
     ?>
-
     <h1 class="container">Registracija</h1>
-
     <form class="container" action="login_page.php" method="post">
-
         Uporabniško ime: <input type="text" name="reg_username"><br>
         Geslo: <input type="password" name="reg_pass"><br>
-
         <input type="submit" value="Registriraj se">
-
     </form>
     <hr>
     <h1 class="container">Prijava</h1>
-
     <form class="container" action="login_page.php" method="post">
-
         Uporabniško ime: <input type="text" name="prij_username"><br>
         Geslo: <input type="password" name="prij_pass"><br>
         <input type="submit" value="Prijavi se">
-
     </form>
