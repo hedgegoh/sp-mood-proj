@@ -1,5 +1,6 @@
 <?Php
 
+
 $todo=$_POST['todo'];
 
 if(isset($todo) and $todo=="submit"){
@@ -60,13 +61,31 @@ if ($mysqli->connect_error) {
     $mysqli->connect_errno . ') '.
     $mysqli->connect_error);
 }
- 
+global $username;
+
+
+if (isset($_COOKIE['uid'])) {
+    $username = $_COOKIE['uid'];
+    // preverimo, ali je uporabniško ime veljavno, npr. preverite, ali obstaja v bazi podatkov
+} else {
+    echo "Piškotka nima";
+    // če piškotka ni, uporabnik ni prijavljen
+}
+
+$userFound = false;
+$userFound = mysqli_query($mysqli, "SELECT user_id FROM users WHERE username = '$username'");
+while ($user = mysqli_fetch_assoc($userFound))
+if ($username === $user["user_id"]) 
+{
+    break;
+}
 // SQL query za izbiro podatkov iz bp
 switch ($month) {
     case "1":
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=1
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -74,6 +93,7 @@ switch ($month) {
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=2
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -81,6 +101,7 @@ switch ($month) {
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=3
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -88,6 +109,7 @@ switch ($month) {
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=4
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -95,6 +117,7 @@ switch ($month) {
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=5
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -102,6 +125,7 @@ switch ($month) {
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=6
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -109,6 +133,7 @@ switch ($month) {
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=7
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -116,6 +141,7 @@ switch ($month) {
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=8
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -123,6 +149,7 @@ switch ($month) {
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=9
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -130,6 +157,7 @@ switch ($month) {
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=10
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -137,6 +165,7 @@ switch ($month) {
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=11
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -144,6 +173,7 @@ switch ($month) {
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
         WHERE MONTH(user_mood_date)=12
+        WHERE username = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
