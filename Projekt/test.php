@@ -24,48 +24,10 @@ if ($currMonth != null || $currYear != null) {
 	//$calendar = new CustvenKoledar($currYear . "-" . $currMonth . "-01");
 	$calendar->NastaviDatum($currYear . "-" . $currMonth . "-01");
 	GetEmotionFromDb();
-	echo "rrr";
 } else {
 	// $calendar = new CustvenKoledar();
 	$calendar->NastaviDatum();
 	$file->WriteFile(intval($calendar->mesec), intval($calendar->leto));
-	GetEmotionFromDb();
-	echo "rrr";
-}
-
-if (isset($_POST['previousMonth'])) {
-	$currMonth = intval($file->ReadFile($file->monthPrefix));
-	$currYear = intval($file->ReadFile($file->yearPrefix));
-
-	if ($currMonth <= 1) {
-		$currMonth = 12;
-		$currYear -= 1;
-		//$calendar = new CustvenKoledar($currYear . "-" . $currMonth . "-01");
-		$calendar->NastaviDatum($currYear . "-" . $currMonth . "-01");
-		$file->WriteFile($currMonth, $currYear);
-	} else {
-		$currMonth -= 1;
-		//$calendar = new CustvenKoledar($currYear . "-" . $currMonth . "-01");
-		$calendar->NastaviDatum($currYear . "-" . $currMonth . "-01");
-		$file->WriteFile($currMonth, $currYear);
-	}
-	GetEmotionFromDb();
-} else if (isset($_POST['nextMonth'])) {
-	$currMonth = intval($file->ReadFile($file->monthPrefix));
-	$currYear = intval($file->ReadFile($file->yearPrefix));
-
-	if ($currMonth >= 12) {
-		$currMonth = 1;
-		$currYear += 1;
-		//$calendar = new CustvenKoledar($currYear . "-" . $currMonth . "-01");
-		$calendar->NastaviDatum($currYear . "-" . $currMonth . "-01");
-		$file->WriteFile($currMonth, $currYear);
-	} else {
-		$currMonth += 1;
-		//$calendar = new CustvenKoledar($currYear . "-" . $currMonth . "-01");
-		$calendar->NastaviDatum($currYear . "-" . $currMonth . "-01");
-		$file->WriteFile($currMonth, $currYear);
-	}
 	GetEmotionFromDb();
 }
 
@@ -90,8 +52,6 @@ function zapis_custva()
 	global $datum;
 	global $username;
 	global $db;
-
-	echo $username;
 
 	//spremenljivki za sklicevanje na bazo za čustva in za userja 
 	$custvo_v_bazi = "SELECT mood_types_id, mood_name FROM mood_types";
@@ -253,6 +213,12 @@ if (isset($_GET['emotion']) != '') {
 if (isset($_GET['diary']) != '') {
 	echo zapis_v_diary();
 }
+
+if(isset($_GET['mesec']) && isset($_GET['leto']))
+{
+	$file->WriteFile($_GET['mesec'], $_GET['leto']);
+	$calendar->NastaviDatum($_GET['leto'] . "-" . $_GET['mesec'] . "-" . "1");
+}
 ?>
 
 <!DOCTYPE html>
@@ -274,10 +240,50 @@ if (isset($_GET['diary']) != '') {
 	<div>
 		<?=$calendar?>
 		<hr>
-		<form method="post">
-			<input type="submit" name="previousMonth" value="Prejšnji mesec" />
-			<input type="submit" name="nextMonth" value="Naslednji mesec" />
-		</form>
+		<form method="get">
+			Kateri mesec?:<select name="mesec"><br>
+				<option value="1">Januar</option>
+				<option value="2">Februar</option>
+				<option value="3">Marec</option>
+				<option value="4">April</option>
+				<option value="5">Maj</option>
+				<option value="6">Junij</option>
+				<option value="7">Julij</option>
+				<option value="8">Avgust</option>
+				<option value="9">September</option>
+				<option value="10">Oktober</option>
+				<option value="11">November</option>
+				<option value="12">December</option>
+			</select><br>
+			Katero leto?<select name="leto"><br>
+				<option value="2023">2023</option>
+				<option value="2022">2022</option>
+				<option value="2021">2021</option>
+				<option value="2020">2020</option>
+				<option value="2019">2019</option>
+				<option value="2018">2018</option>
+				<option value="2017">2017</option>
+				<option value="2016">2016</option>
+				<option value="2015">2015</option>
+				<option value="2014">2014</option>
+				<option value="2013">2013</option>
+				<option value="2012">2012</option>
+				<option value="2011">2011</option>
+				<option value="2010">2010</option>
+				<option value="2009">2009</option>
+				<option value="2008">2008</option>
+				<option value="2007">2007</option>
+				<option value="2006">2006</option>
+				<option value="2005">2005</option>
+				<option value="2004">2004</option>
+				<option value="2003">2003</option>
+				<option value="2002">2002</option>
+				<option value="2001">2001</option>
+				<option value="2000">2000</option>
+			</select><br>
+			<input type="submit" name='Izberi mesec' value="Izberi mesec"
+				style="background-color: #62929E; color: #fdfdff;">
+		</form>		
 		<hr>
 		<form method="get">
 			Katero čustvo danes prevladuje v tebi:<select name="emotion"><br>
