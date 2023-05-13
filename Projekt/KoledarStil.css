@@ -1,0 +1,52 @@
+.custvenKoledar 
+{
+    display: flex;
+    flex-flow: column;
+}
+
+.custvenKoledar .dneviTeden
+{
+    border-collapse: collapse;
+    width: 50%;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin-top: 80px;
+    border: 1px solid black;
+    padding-bottom: 30px;
+    vertical-align: top;
+    text-align: left;
+    height: 100px;
+    font-weight: 200;
+}
+
+.dneviTeden .imeDneva
+{
+    width: calc(100% / 7);
+    border: 1px solid black;
+    padding: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.green 
+{
+    background-color: #8cb88e;
+    text-align: center;
+}
+.blue 
+{
+    background-color: #8db3d8;
+    text-align: center;
+}
+
+.red
+{
+    background-color: #d36767;
+    text-align: center;
+}
