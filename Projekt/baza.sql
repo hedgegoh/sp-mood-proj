@@ -36,7 +36,6 @@ INSERT INTO daily_quotes (quote) VALUES
 ('Uspeh ni ključ do sreče. Sreča je ključ do uspeha. Če imate radi, kar počnete, boste uspešni. - Albert Schweitzer'),
 ('Uspeh ni končna postaja, neuspeh pa ni usoden udarec. To je pogum, ki šteje. - Winston Churchill'),
 ('Uspeh je kombinacija talenta, trdega dela in vztrajnosti. - Colin Powell'),
-
 ('Najpomembnejša stvar pri komunikaciji je slišati, kaj ni bilo rečeno. - Peter Drucker'),
 ('Pustite, da vaša radovednost prevlada nad strahom. To je ključ do novih izkušenj in znanj." - Ellen J. Barrier'),
 ('Cilji so sanje z rokom trajanja. - Diana Scharf Hunt');
