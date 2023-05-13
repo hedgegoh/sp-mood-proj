@@ -50,3 +50,90 @@ function izpis_dnevnik()
     <?php echo izpis_dnevnik(); ?>
 </body>
 </html>
+
+<?php
+
+
+
+$sql = " SELECT mood_types.mood_name, diary.diary, user_mood.user_mood_date
+FROM diary
+INNER JOIN user_mood ON diary.user_mood_id = user_mood.user_mood_id
+INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id;
+WHERE ser_id = '$username'
+ ";
+$result = $db->query($sql);
+$db->close();
+?>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dnevnik</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+ 
+    <style>
+        table {
+            margin: 0 auto;
+            font-size: large;
+            border: 1px solid black;
+        }
+ 
+        h1 {
+            text-align: center;
+            color: #006600;
+            font-size: xx-large;
+            font-family:'sans-serif';
+        }
+ 
+        td {
+             border: 1px solid black;
+        }
+ 
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+ 
+
+    </style>
+</head>
+ 
+<body>
+    <section>
+        <h1>DNEVNIK</h1>
+
+        <table>
+            <tr>
+                <th>datum</th>
+                <th>zapis</th>
+                <th>mood ime</th>
+            </tr>
+
+            <?php
+
+                while($rows=$result->fetch_assoc())
+                {
+            ?>
+            <tr>
+                <td><?php echo $rows['user_mood_date'];?></td>
+                <td><?php echo $rows['diary'];?></td>
+                <td><?php echo $rows['mood_name'];?></td>
+
+            </tr>
+            <?php
+                }
+            ?>
+        </table>
+    </section>
+</body>
+ 
+</html>
