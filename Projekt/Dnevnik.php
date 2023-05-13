@@ -12,62 +12,58 @@ if ($db->connect_errno) {
 	die("Failed to connect to MySQL: " . $db->connect_error);
 }
 
-function izpis_dnevnik()
-{
-    global $username;
-	global $db;
 
-    if (isset($_COOKIE['uid'])) {
-		$username = $_COOKIE['uid'];
-		// preverimo, ali je uporabniško ime veljavno, npr. preverite, ali obstaja v bazi podatkov
-	} else {
-		echo "Piškotka nima";
-		// če piškotka ni, uporabnik ni prijavljen
-	}
-
-    $userFound = false;
-	$userFound = mysqli_query($db, "SELECT user_id FROM users WHERE username = '$username'");
-	while ($user = mysqli_fetch_assoc($userFound))
-	if ($username === $user["user_id"]) 
-	{
-		break;
-	}
-
-    
-}
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dnevnik</title>
-    <link href="style.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-    <?php echo izpis_dnevnik(); ?>
-</body>
-</html>
+
+
+
 
 <?php
+function DobiPodatke()
+{
+    global $db;
+    global $username;
+    global $result;
+
+    if (isset($_COOKIE['uid'])) {
+        $username = $_COOKIE['uid'];
+        // preverimo, ali je uporabniško ime veljavno, npr. preverite, ali obstaja v bazi podatkov
+    } else {
+        echo "Piškotka nima";
+        // če piškotka ni, uporabnik ni prijavljen
+    }
+
+    $userFound = false;
+    $userFound = mysqli_query($db, "SELECT user_id FROM users WHERE username = '$username'");
+    while ($user = mysqli_fetch_assoc($userFound))
+    if ($username === $user["user_id"]) 
+    {
+        break;
+    }
+        
+    $sql = " SELECT mood_types.mood_name, diary.diary, user_mood.user_mood_date
+    FROM diary
+    INNER JOIN user_mood ON diary.user_mood_id = user_mood.user_mood_id
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    ";
+    $result = $db->query($sql);
+    $db->close();
 
 
-
-$sql = " SELECT mood_types.mood_name, diary.diary, user_mood.user_mood_date
-FROM diary
-INNER JOIN user_mood ON diary.user_mood_id = user_mood.user_mood_id
-INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id;
-WHERE ser_id = '$username'
- ";
-$result = $db->query($sql);
-$db->close();
+    while($rows=$result->fetch_assoc()) {
 ?>
+            
+        <tr>
+            <td><?php echo $rows['user_mood_date'];?></td>
+            <td><?php echo $rows['diary'];?></td>
+            <td><?php echo $rows['mood_name'];?></td>
 
-
-
-
+        </tr>
+<?php
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -118,20 +114,7 @@ $db->close();
                 <th>mood ime</th>
             </tr>
 
-            <?php
-
-                while($rows=$result->fetch_assoc())
-                {
-            ?>
-            <tr>
-                <td><?php echo $rows['user_mood_date'];?></td>
-                <td><?php echo $rows['diary'];?></td>
-                <td><?php echo $rows['mood_name'];?></td>
-
-            </tr>
-            <?php
-                }
-            ?>
+            <?php DobiPodatke(); ?>
         </table>
     </section>
 </body>
