@@ -9,6 +9,8 @@
 
         private $teden = [0 => 'Ponedeljek', 1 => 'Torek', 2 => 'Sreda', 3 => 'Četrtek', 4 => 'Petek', 5 => 'Sobota', 6 => 'Nedelja'];
         private $tedenAng = [0 => 'Mon', 1 => 'Tue', 2 => 'Wed', 3 => 'Thu', 4 => 'Fri', 5 => "Sat", 6 => 'Sun'];
+        private $imeMeseci = [0 => 'Januar', 1 => 'Februar', 2 => 'Marec', 3 => 'April', 4 => 'Maj', 5 => 'Junij', 
+                                6 => 'Julij', 7 => 'Avgust', 8 => 'September', 9 => 'Oktober', 10 => 'November', 11 => 'December'];
 
         // nastavi trenuten datum, ki ga bo prikazal koledar
         public function NastaviDatum(string $datum = null)
@@ -32,8 +34,10 @@
             $dneviMesec = date('t', strtotime($this->dan . '-' . $this->mesec . '-' . $this->leto));
             $zacetniDanMesec = array_search(date('D', strtotime($this->dan . '-' . $this->mesec . '-' . $this->leto)), $this->tedenAng);
 
+            $imeMesec = $this->imeMeseci[intval($this->mesec) - 1];
+
             $html = "<div class = 'custvenKoledar'>";
-            $html .= "<h3>" . date('F Y', strtotime($this->dan . '-' . $this->mesec . '-' . $this->leto)) . "</h3>";
+            $html .= "<h3>" . $imeMesec . " " . $this->leto . "</h3>";
             $html .= "<table class = 'dneviTeden'><tr>";
             foreach ($this->teden as $dan)
             {
