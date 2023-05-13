@@ -24,13 +24,11 @@ if ($currMonth != null || $currYear != null) {
 	//$calendar = new CustvenKoledar($currYear . "-" . $currMonth . "-01");
 	$calendar->NastaviDatum($currYear . "-" . $currMonth . "-01");
 	GetEmotionFromDb();
-	echo "rrr";
 } else {
 	// $calendar = new CustvenKoledar();
 	$calendar->NastaviDatum();
 	$file->WriteFile(intval($calendar->mesec), intval($calendar->leto));
 	GetEmotionFromDb();
-	echo "rrr";
 }
 
 if (isset($_POST['previousMonth'])) {
@@ -90,8 +88,6 @@ function zapis_custva()
 	global $datum;
 	global $username;
 	global $db;
-
-	echo $username;
 
 	//spremenljivki za sklicevanje na bazo za čustva in za userja 
 	$custvo_v_bazi = "SELECT mood_types_id, mood_name FROM mood_types";
