@@ -32,12 +32,13 @@ CREATE TABLE daily_quotes (
     PRIMARY KEY (quote_id)); 
 
 INSERT INTO daily_quotes (quote) VALUES 
-('Vztrajaj, uspeh je tvoj polona, če si ga boš dovolil doseči. - Oprah Winfrey'),
-('Uspeh ni ključ do sreče. Sreča je ključ do uspeha. Če imate radi, kar počnete, boste uspešni. - Albert Schweitzer'),
-('Uspeh ni končna postaja, neuspeh pa ni usoden udarec. To je pogum, ki šteje. - Winston Churchill'),
+('Lajf je borba.'),
+('Pot do uspeha ni enostavna, toda vredna je truda.'),
+('If you cannot make it good, at least make it look good. - Bill Gates'),
 ('Uspeh je kombinacija talenta, trdega dela in vztrajnosti. - Colin Powell'),
-('Najpomembnejša stvar pri komunikaciji je slišati, kaj ni bilo rečeno. - Peter Drucker'),
-('Pustite, da vaša radovednost prevlada nad strahom. To je ključ do novih izkušenj in znanj." - Ellen J. Barrier'),
+('You miss 100% of the shots you do not take." - Wayne Gretzky'),
+('I have not failed. I have just found 10,000 ways that will not work." - Thomas Edison'),
+('If at first, you do not succeed, then skydiving is not for you.'),
 ('Cilji so sanje z rokom trajanja. - Diana Scharf Hunt');
 
  CREATE TABLE diary (
