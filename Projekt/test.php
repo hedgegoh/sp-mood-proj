@@ -224,12 +224,15 @@ if(isset($_GET['mesec']) && isset($_GET['leto']))
 <html>
 
 <head>
-	<meta charset="utf-8">
+	<meta charset="utf-8">    
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Koledar čustev</title>
 	<link href="style.css" rel="stylesheet" type="text/css">
 	<link href="KoledarStil.css" rel="stylesheet" type="text/css">
+</head>
 
-	
+
 <body>
 	<nav class="navtop">
 		<div>
