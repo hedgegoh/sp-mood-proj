@@ -171,7 +171,6 @@ function GetEmotionFromDb()
 	}
 }
 
-
 function zapis_v_diary()
 {
 	global $db;
@@ -314,6 +313,16 @@ if(isset($_GET['mesec']) && isset($_GET['leto']))
 				style="background-color: #62929E; color: #fdfdff;"><br><br>
 		</form>
 	</div>
+	<form action="Dnevnik.php" method="post">
+		<input type="submit" value="Prikaži dnevnik" name="Prikaži dnevnik">
+		<br>
+		<br>
+	</form>
+	<form action="stolpicni_diagram_mesec.php" method="post">
+		<input type="submit" value="Prikaži analizo čustev" name="Prikaži analizo čustev">
+		<br>
+		<br>
+	</form>
 
 	<form action="login_page.php" method="post">
 		<input type="submit" value="Izpiši se" name="logout">
