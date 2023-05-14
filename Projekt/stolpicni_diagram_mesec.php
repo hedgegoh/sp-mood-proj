@@ -14,7 +14,7 @@ if (isset($_POST['todo']) != ""){
 
 <?php
 $user = 'root';
-$password = 'root';
+$password = '';
 $database = 'moodapp';
 $servername = 'localhost';
 $mysqli = new mysqli(
@@ -258,12 +258,19 @@ $mysqli->close();
       // izgled
       var barColors = ["pink", "violet","blue","green","yellow"];
       var options = {
-        legend: { display: false },
-        title: {
-          display: true,
-          text: "Mood Types / Count"
-        }
-      };
+      legend: { display: false },
+      title: {
+        display: true,
+        text: "Mood Types / Count"
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    };
       var data = {
         labels: xValues,
         datasets: [
