@@ -242,7 +242,7 @@ $mysqli->close();
 </head>
 
 <body>
-  <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+  <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
   <script>
     // vzame json podatke iz php
     var jsonData = <?php echo $json_data; ?>;
@@ -256,7 +256,7 @@ $mysqli->close();
       });
 
       // izgled
-      var barColors = ["pink", "violet","blue","green","yellow"];
+      var barColors = ["pink", "violet","blue","green","yellow", "orange", "grey", "red"];
       var options = {
       legend: { display: false },
       title: {
