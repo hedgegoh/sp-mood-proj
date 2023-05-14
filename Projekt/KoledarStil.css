@@ -7,15 +7,14 @@
 .custvenKoledar .dneviTeden
 {
     border-collapse: collapse;
-    width: 50%;
-    border-collapse: collapse;
+    width: 100%;
 }
 
 td
 {
-    margin-top: 80px;
+    margin-top: 100px;
     border: 1px solid black;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
     vertical-align: top;
     text-align: left;
     height: 100px;
@@ -24,12 +23,12 @@ td
 
 .dneviTeden .imeDneva
 {
-    width: calc(100% / 7);
+    width: 115px;
     border: 1px solid black;
-    padding: 20px;
+    padding: 10px;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     background-color: #007bff;
     color: #fff;
 }
