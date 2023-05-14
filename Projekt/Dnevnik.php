@@ -78,7 +78,7 @@ function DobiPodatke()
         table {
             margin: 0 auto;
             font-size: large;
-            border: 1px solid black;
+            border-collapse: collapse;
         }
  
         h1 {
@@ -98,16 +98,16 @@ function DobiPodatke()
             padding: 10px;
             text-align: center;
         }
- 
+
 
     </style>
 </head>
- 
+<p><button onclick="sortTable()" class= "logout-gumb">KLIKNI, DA RAZVRSTIŠ TABELO PO DATUMU</button></p>
 <body>
     <section>
         <h1>DNEVNIK</h1>
 
-        <table>
+        <table id="Tabela">
             <tr>
                 <th>datum</th>
                 <th>zapis</th>
@@ -186,6 +186,30 @@ a:hover {
 	}
 	?>
 
-  
+<script>
+function sortTable() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("Tabela");
+  switching = true;
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[0];
+      y = rows[i + 1].getElementsByTagName("TD")[0];
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+</script>
+
 </body>
 </html> 
