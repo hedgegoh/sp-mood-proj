@@ -14,7 +14,7 @@ if (isset($_POST['todo']) != ""){
 
 <?php
 $user = 'root';
-$password = 'root';
+$password = '';
 $database = 'moodapp';
 $servername = 'localhost';
 $mysqli = new mysqli(
