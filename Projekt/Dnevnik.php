@@ -18,7 +18,6 @@ if ($db->connect_errno) {
 
 
 
-
 <?php
 function DobiPodatke()
 {
@@ -28,26 +27,19 @@ function DobiPodatke()
 
     if (isset($_COOKIE['uid'])) {
         $username = $_COOKIE['uid'];
-        // preverimo, ali je uporabniško ime veljavno, npr. preverite, ali obstaja v bazi podatkov
+        // Check if the username is valid, e.g. check if it exists in the database
     } else {
-        echo "Piškotka nima";
-        // če piškotka ni, uporabnik ni prijavljen
+        echo "Cookie not found";
+        // If the cookie is not set, the user is not logged in
+        return;
     }
 
-    $userFound = false;
-    $userFound = mysqli_query($db, "SELECT user_id FROM users WHERE username = '$username'");
-    while ($user = mysqli_fetch_assoc($userFound))
-    if ($username === $user["user_id"]) 
-    {
-        break;
-    }
-        
-    $sql = " SELECT users.user_id, mood_types.mood_name, diary.diary, user_mood.user_mood_date
-    FROM diary
-    INNER JOIN user_mood ON diary.user_mood_id = user_mood.user_mood_id
-    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
-    WHERE users.user_id = '$username'
-    ";
+    $sql = "SELECT users.user_id, mood_types.mood_name, diary.diary, user_mood.user_mood_date
+            FROM diary
+            INNER JOIN user_mood ON diary.user_mood_id = user_mood.user_mood_id
+            INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+            INNER JOIN users ON user_mood.user_id = users.user_id
+            WHERE users.user_id = '$username'";
     $result = $db->query($sql);
 
     if (!$result) {
