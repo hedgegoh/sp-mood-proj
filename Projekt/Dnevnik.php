@@ -78,7 +78,7 @@ function DobiPodatke()
         table {
             margin: 0 auto;
             font-size: large;
-            border: 1px solid black;
+            border-collapse: collapse;
         }
  
         h1 {
@@ -98,7 +98,7 @@ function DobiPodatke()
             padding: 10px;
             text-align: center;
         }
- 
+
 
     </style>
 </head>
