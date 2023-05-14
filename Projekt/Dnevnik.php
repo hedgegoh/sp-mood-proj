@@ -117,6 +117,8 @@ function DobiPodatke()
             <?php DobiPodatke(); ?>
         </table>
     </section>
+
+    
 </body>
  
 </html>
@@ -150,6 +152,19 @@ a:hover {
 .round {
   border-radius: 50%;
 }
+.logout-gumb {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
 </style>
 </head>
 <body>
@@ -157,6 +172,19 @@ a:hover {
 <a href="test.php" class="previous">&laquo; Nazaj na koledar</a>
 <a href="stolpicni_diagram_mesec.php" class="next">Naprej na stolpični diagram &raquo;</a>
 
+<form action="login_page.php" method="post">
+		<input type="submit" value="Izpiši se" name="logout" class="logout-gumb">
+		<br>
+		<br>
+	</form>
+
+	<?php
+
+	if (isset($_POST['logout'])) {
+		echo $_POST['username'];
+		logoutUser();
+	}
+	?>
 
   
 </body>
