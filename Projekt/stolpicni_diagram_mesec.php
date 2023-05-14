@@ -242,7 +242,7 @@ $mysqli->close();
 </head>
 
 <body>
-  <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+  <canvas id="diagram" style="width:100%;max-width:700px"></canvas>
   <script>
     // vzame json podatke iz php
     var jsonData = <?php echo $json_data; ?>;
@@ -281,7 +281,7 @@ $mysqli->close();
         ]
       };
 
-      new Chart("myChart", {
+      new Chart("diagram", {
         type: "bar",
         data: data,
         options: options

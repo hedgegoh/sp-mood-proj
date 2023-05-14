@@ -102,7 +102,7 @@ function DobiPodatke()
 
     </style>
 </head>
-<p><button onclick="sortTable()" class= "logout-gumb">KLIKNI, DA RAZVRSTIŠ TABELO PO DATUMU</button></p>
+
 <body>
     <section>
         <h1>DNEVNIK</h1>
@@ -168,7 +168,7 @@ a:hover {
 </style>
 </head>
 <body>
-
+<p><button onclick="sortTable()" class= "logout-gumb">KLIKNI, DA RAZVRSTIŠ TABELO PO DATUMU</button></p>
 <a href="test.php" class="previous">&laquo; Nazaj na koledar</a>
 <a href="stolpicni_diagram_mesec.php" class="next">Naprej na stolpični diagram &raquo;</a>
 
