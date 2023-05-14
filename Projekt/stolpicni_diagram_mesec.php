@@ -74,20 +74,13 @@ if (isset($_COOKIE['uid'])) {
     // če piškotka ni, uporabnik ni prijavljen
 }
 
-$userFound = false;
-$userFound = mysqli_query($mysqli, "SELECT user_id FROM users WHERE username = '$username'");
-while ($user = mysqli_fetch_assoc($userFound))
-if ($username === $user["user_id"]) 
-{
-    break;
-}
 
 // SQL query za izbiro podatkov iz bp
 switch ($month) {
     case "1":
         $sql = " SELECT mood_types_id, COUNT(*) AS count
         FROM user_mood
-        WHERE MONTH(user_mood_date)=1 AND user_id = '$username'
+        WHERE MONTH(user_mood_date)=1 AND users.user_id = '$username'
         GROUP BY mood_types_id
         ORDER BY mood_types_id DESC ";
         break;
@@ -232,62 +225,9 @@ $mysqli->close();
 
         <table id="Tabela">
             <tr>
-            <!DOCTYPE html>
-<html>
-<!-- Include the Chart.js library -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- Create a canvas element where the chart will be drawn -->
-<canvas id="myChart"></canvas>
-
-<script>
-// Get the data from the PHP script
-let data = <?php echo json_encode(GETDATA()); ?>;
-
-// Create the chart
-let ctx = document.getElementById('myChart').getContext('2d');
-let chart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['Sad', 'Happy', 'Angry', 'Neutral'],
-    datasets: [{
-      label: 'Moods',
-      data: data,
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)'
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)'
-      ],
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    }
-  }
-});
-</script>
-
-  </body>
-</html>
-
-
-
+ 
             </tr>
-            
-  
+ 
             
         </table>
         
@@ -298,3 +238,4 @@ let chart = new Chart(ctx, {
 </body>
  
 </html>
+
