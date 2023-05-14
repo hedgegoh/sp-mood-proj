@@ -1,37 +1,20 @@
 <?php
-if (isset($_POST['todo']) && $_POST['todo'] == "submit") {
-  $month = $_POST['month'];
+
+if (isset($_POST['todo']) != ""){
+    $todo=$_POST['todo'];
+    $month = $_POST['month'];
   $date_value = "$month";
-  $date_value = "$month";
+} else { 
+    $todo = '01';
+    $month = '01';
 }
 ?>
 
-<form method=post name=f1 action=''>
-  <input type=hidden name=todo value="submit">
-  <table border="0" cellspacing="0">
-    <tr>
-      <td align=left>
-        <select name=month value=''>
-          <option value='01'>Januar</option>
-          <option value='02'>Februar</option>
-          <option value='03'>Marec</option>
-          <option value='04'>April</option>
-          <option value='05'>Maj</option>
-          <option value='06'>Junij</option>
-          <option value='07'>Julij</option>
-          <option value='08'>Avgust</option>
-          <option value='09'>September</option>
-          <option value='10'>Oktober</option>
-          <option value='11'>November</option>
-          <option value='12'>December</option>
-        </select>
-        <input type=submit value=Submit>
-  </table>
-</form>
+
 
 <?php
 $user = 'root';
-$password = '';
+$password = 'root';
 $database = 'moodapp';
 $servername = 'localhost';
 $mysqli = new mysqli(
@@ -205,9 +188,7 @@ $mysqli->close();
       font-family: 'sans-serif';
     }
 
-    td {
-      border: 1px solid black;
-    }
+
 
     th,
     td {
@@ -223,6 +204,29 @@ $mysqli->close();
     <h1>POROČILO ZA MESEC
       <?php echo $month ?>
     </h1>
+
+    <form method=post name=f1 action=''>
+  <input type=hidden name=todo value="submit">
+  <table border="0" cellspacing="0">
+    <tr>
+      <td align=left>
+        <select name=month value=''>
+          <option value='01'>Januar</option>
+          <option value='02'>Februar</option>
+          <option value='03'>Marec</option>
+          <option value='04'>April</option>
+          <option value='05'>Maj</option>
+          <option value='06'>Junij</option>
+          <option value='07'>Julij</option>
+          <option value='08'>Avgust</option>
+          <option value='09'>September</option>
+          <option value='10'>Oktober</option>
+          <option value='11'>November</option>
+          <option value='12'>December</option>
+        </select>
+        <input type=submit value=Izberi>
+  </table>
+</form>
   </section>
 </body>
 
@@ -311,10 +315,24 @@ a:hover {
 </style>
 </head>
 <body>
-
-<a href="test.php" class="previous">&laquo; Nazaj na koledar</a>
+<br> 
+<a href="test.php" class="previous">&laquo; Nazaj na koledar</a> 
 <a href="Dnevnik.php" class="next">Naprej na dnevnik &raquo;</a>
+<br>
+<br>
+<form action="login_page.php" method="post">
+		<input type="submit" value="Izpiši se" name="logout">
+		<br>
+		<br>
+	</form>
 
+	<?php
+
+	if (isset($_POST['logout'])) {
+		echo $_POST['username'];
+		logoutUser();
+	}
+	?>
 
   
 </body>
