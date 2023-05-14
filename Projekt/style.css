@@ -14,76 +14,48 @@ body {
 }
 
 .navtop {
-    background-color: #3398c0;
+    background-color: #ffbd03;
     height: 60px;
     width: 100%;
     border: 0;
 }
 
-.navtop div {
-    display: flex;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1200px;
-    height: 100%;
-    justify-content: space-between;
-    align-items: center;
-}
-
-
 .navtop div h1 {
-    font-size: 24px;
-    padding: 0;
-    margin: 0;
+    font-size: 30px;
     color: #ebedee;
-    font-weight: normal;
-}
-
-.navtop div a {
-    padding: 0 20px;
-    text-decoration: none;
-    color: #c4c8cc;
-    font-weight: bold;
-}
-
-.navtop div a i {
-    padding: 2px 8px 0 0;
-}
-
-.navtop div a:hover {
-    color: #ebedee;
+    font-weight: 650;
+    text-align: center;
 }
 
 form {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-}
-
-form label {
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #666666;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 form input[type="submit"],
 form input[type="button"],
 form button {
-    background-color: #3b4656;
-    color: #ebedee;
+    background-color: #dd7973;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-top: 10px;
+    color: black;
+    width: 300px;
+    display: block;
+    margin: 1auto;
 }
 
 form input[type="submit"]:hover,
 form input[type="button"]:hover,
 form button:hover {
-    background-color: #4b5769;
+    background-color: #ffbd03;
+    color: white;
 }
 
 form input[type="text"],
@@ -102,18 +74,4 @@ form textarea {
 
 form select {
     height: 40px;
-}
-
-hr {
-    border: 0;
-    border-top: 1px solid #ebebeb;
-    margin: 40px 0;
-}
-
-.content h2 {
-    margin: 0;
-    padding: 25px 0;
-    font-size: 22px;
-    border-bottom: 1px solid #ebebeb;
-    color: #666666;
 }

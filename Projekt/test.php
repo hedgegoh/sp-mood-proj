@@ -134,20 +134,16 @@ function GetEmotionFromDb()
 	$userFound = false;
 	$userFound = mysqli_query($db, "SELECT user_id FROM users WHERE username = '$username'");
 	while ($user = mysqli_fetch_assoc($userFound))
-	if ($username === $user["user_id"]) 
-	{
-		break;
-	}
-		
+		if ($username === $user["user_id"]) {
+			break;
+		}
+
 
 	$countFound = mysqli_query($db, "SELECT COUNT(user_mood_id) FROM user_mood");
-	if ($countFound != false)
-	{
+	if ($countFound != false) {
 		$count = mysqli_fetch_assoc($countFound);
-		if (!empty($count))
-		{
-			for ($x = 1; $x <= $count["COUNT(user_mood_id)"]; $x++)
-			{
+		if (!empty($count)) {
+			for ($x = 1; $x <= $count["COUNT(user_mood_id)"]; $x++) {
 				$emotionFound = false;
 				$dateFound = false;
 				$colorFound = false;
@@ -156,18 +152,16 @@ function GetEmotionFromDb()
 													WHERE user_mood.user_mood_id = $x AND user_id = '$username'");
 				$dateFound = mysqli_query($db, "SELECT user_mood_date FROM user_mood WHERE user_mood_id = $x AND user_id = '$username'");
 				$colorFound = mysqli_query($db, "SELECT mood_types_color FROM user_mood WHERE user_mood_id = $x AND user_id = '$username'");
-				if ($emotionFound != false && $dateFound != false && $colorFound != false)
-				{
+				if ($emotionFound != false && $dateFound != false && $colorFound != false) {
 					$emotion = mysqli_fetch_assoc($emotionFound);
 					$date = mysqli_fetch_assoc($dateFound);
 					$color = mysqli_fetch_assoc($colorFound);
-					if ($emotion != null && $date != null && $color != null)
-					{
+					if ($emotion != null && $date != null && $color != null) {
 						$calendar->dodaj_custvo($emotion["mood_name"], $date["user_mood_date"], 1, $color["mood_types_color"]);
-					}					
-				}			
+					}
+				}
 			}
-		}		
+		}
 	}
 }
 
@@ -213,8 +207,7 @@ if (isset($_GET['diary']) != '') {
 	echo zapis_v_diary();
 }
 
-if(isset($_GET['mesec']) && isset($_GET['leto']))
-{
+if (isset($_GET['mesec']) && isset($_GET['leto'])) {
 	$file->WriteFile($_GET['mesec'], $_GET['leto']);
 	$calendar->NastaviDatum($_GET['leto'] . "-" . $_GET['mesec'] . "-" . "1");
 }
@@ -224,9 +217,9 @@ if(isset($_GET['mesec']) && isset($_GET['leto']))
 <html>
 
 <head>
-	<meta charset="utf-8">    
+	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Koledar čustev</title>
 	<link href="style.css" rel="stylesheet" type="text/css">
 	<link href="KoledarStil.css" rel="stylesheet" type="text/css">
@@ -240,7 +233,7 @@ if(isset($_GET['mesec']) && isset($_GET['leto']))
 		</div>
 	</nav>
 	<div>
-		<?=$calendar?>
+		<?= $calendar ?>
 		<hr>
 		<form method="get">
 			Kateri mesec?:<select name="mesec"><br>
@@ -263,9 +256,8 @@ if(isset($_GET['mesec']) && isset($_GET['leto']))
 				<option value="2021">2021</option>
 				<option value="2020">2020</option>
 			</select><br>
-			<input type="submit" name='Izberi mesec' value="Izberi mesec."
-				style="background-color: #62929E; color: #fdfdff;">
-		</form>		
+			<input type="submit" name='Izberi mesec' value="Izberi mesec.">
+		</form>
 		<hr>
 		<form method="get">
 			Zaupaj nam, katero čustvo danes prevladuje v tebi?<select name="emotion"><br>
@@ -286,29 +278,21 @@ if(isset($_GET['mesec']) && isset($_GET['leto']))
 			Zapiši nekaj kratkega o svojem dnevu: <br>
 			<textarea rows="4" cols="50%" name='diary' value="diary"> </textarea><br>
 			Izberi dan v mesecu: <select name="days">
-
-				<?php echo $calendar->dnevi_mesec(intval($file->ReadFile($file->monthPrefix))); 
+				<?php echo $calendar->dnevi_mesec(intval($file->ReadFile($file->monthPrefix)));
 				?>
 			</select><br>
-			<br><input type="submit" name='Dodaj čustvo' value="Dodaj čustvo"
-				style="background-color: #62929E; color: #fdfdff;"><br><br>
+			<br><input type="submit" name='Dodaj čustvo' value="Dodaj čustvo">
 		</form>
 	</div>
 	<form action="Dnevnik.php" method="post">
 		<input type="submit" value="Prikaži dnevnik" name="Prikaži dnevnik">
-		<br>
-		<br>
 	</form>
 	<form action="stolpicni_diagram_mesec.php" method="post">
 		<input type="submit" value="Prikaži analizo čustev" name="Prikaži analizo čustev">
-		<br>
-		<br>
 	</form>
 
 	<form action="login_page.php" method="post">
 		<input type="submit" value="Izpiši se" name="logout">
-		<br>
-		<br>
 	</form>
 
 	<?php
