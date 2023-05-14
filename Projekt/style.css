@@ -30,12 +30,6 @@ body {
     align-items: center;
 }
 
-.navtop div h1,
-.navtop div a {
-    display: inline-flex;
-    align-items: center;
-
-}
 
 .navtop div h1 {
     font-size: 24px;
