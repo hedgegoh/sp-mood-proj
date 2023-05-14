@@ -42,14 +42,19 @@ function DobiPodatke()
         break;
     }
         
-    $sql = " SELECT mood_types.mood_name, diary.diary, user_mood.user_mood_date
+    $sql = " SELECT users.user_id, mood_types.mood_name, diary.diary, user_mood.user_mood_date
     FROM diary
     INNER JOIN user_mood ON diary.user_mood_id = user_mood.user_mood_id
     INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE users.user_id = '$username'
     ";
     $result = $db->query($sql);
-    $db->close();
 
+    if (!$result) {
+        // Print the error message and return without fetching any data.
+        printf("Query execution failed: %s\n", $db->error);
+        return;
+    }
 
     while($rows=$result->fetch_assoc()) {
 ?>
@@ -62,8 +67,11 @@ function DobiPodatke()
         </tr>
 <?php
     }
+
+    $db->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
