@@ -65,99 +65,115 @@ switch ($month) {
 
 
   case "1":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=1 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 1 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+
+      break;
   case "2":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=2 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 2 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+
+      break;
   case "3":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=3 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 3 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+      break;
   case "4":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=4 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 4 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+      break;
   case "5":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=5 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 5 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+      break;
   case "6":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=6 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 6 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+      break;
   case "7":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=7 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 7 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+      break;
   case "8":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=8 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 8 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+      break;
   case "9":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=9 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 9 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+      break;
   case "10":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=10 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 10 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+      break;
   case "11":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=11 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 11 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+      break;
   case "12":
-    $sql = " SELECT mood_types_id, COUNT(*) AS count
-      FROM user_mood
-      WHERE MONTH(user_mood_date)=12 AND user_id = '$username'
-      GROUP BY mood_types_id
-      ORDER BY mood_types_id DESC ";
-    break;
+    $sql = "SELECT mood_types.mood_types_id, mood_types.mood_name, COUNT(*) AS count
+    FROM user_mood
+    INNER JOIN mood_types ON user_mood.mood_types_id = mood_types.mood_types_id
+    WHERE MONTH(user_mood.user_mood_date) = 12 AND user_mood.user_id = '$username'
+    GROUP BY user_mood.mood_types_id
+    ORDER BY user_mood.mood_types_id DESC";
+      break;
+
+
 }
 $result = $mysqli->query($sql);
 
 // podatke v json
 $data = array();
-while ($rows = $result->fetch_assoc()) {
-  $data[] = array(
-    "label" => $rows["mood_types_id"],
-    "value" => $rows["count"]
-  );
+while($rows=$result->fetch_assoc()) {
+    $data[] = array(
+        "label" => $rows["mood_name"],
+        "value" => $rows["count"]
+    );
 }
 
 $json_data = json_encode($data);
@@ -227,37 +243,79 @@ $mysqli->close();
     // vzame json podatke iz php
     var jsonData = <?php echo $json_data; ?>;
 
-    // vzame x,y iz json podatkov
-    var xValues = jsonData.map(function (item) {
-      return item.label;
-    });
-    var yValues = jsonData.map(function (item) {
-      return item.value;
-    });
-    // izgled
-    var barColors = ["pink", "violet", "blue", "green", "black"];
-    var options = {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: "Mood Types Count"
-      }
-    };
-    var data = {
-      labels: xValues,
-      datasets: [
-        {
-          backgroundColor: barColors,
-          data: yValues
-        }
-      ]
-    };
-    new Chart("myChart", {
-      type: "bar",
-      data: data,
-      options: options
-    });
-  </script>
-</body>
+      // vzame x,y iz json podatkov
+      var xValues = jsonData.map(function(item) {
+        return item.label;
+      });
+      var yValues = jsonData.map(function(item) {
+        return item.value;
+      });
 
+      // izgled
+      var barColors = ["pink", "violet","blue","green","yellow"];
+      var options = {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Mood Types / Count"
+        }
+      };
+      var data = {
+        labels: xValues,
+        datasets: [
+          {
+            backgroundColor: barColors,
+            data: yValues
+          }
+        ]
+      };
+
+      new Chart("myChart", {
+        type: "bar",
+        data: data,
+        options: options
+      });
+    </script>
+  </body>
 </html>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.round {
+  border-radius: 50%;
+}
+</style>
+</head>
+<body>
+
+<a href="test.php" class="previous">&laquo; Nazaj na koledar</a>
+<a href="Dnevnik.php" class="next">Naprej na dnevnik &raquo;</a>
+
+
+  
+</body>
+</html> 
